@@ -1,0 +1,51 @@
+{
+  "scriptId": "368",
+  "url": "file:///C:/Users/Nitro/Documents/GitHub/eco-path/src/Domain/Household/Location.ts",
+  "functions": [
+    {
+      "functionName": "",
+      "ranges": [{ "startOffset": 0, "endOffset": 1018, "count": 1 }],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "<instance_members_initializer>",
+      "ranges": [{ "startOffset": 71, "endOffset": 118, "count": 2 }],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "Location",
+      "ranges": [{ "startOffset": 122, "endOffset": 299, "count": 2 }],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "create",
+      "ranges": [{ "startOffset": 309, "endOffset": 485, "count": 2 }],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "validateState",
+      "ranges": [{ "startOffset": 488, "endOffset": 817, "count": 2 }],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "get houseNumber",
+      "ranges": [{ "startOffset": 820, "endOffset": 873, "count": 1 }],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "get street",
+      "ranges": [{ "startOffset": 876, "endOffset": 919, "count": 1 }],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "get city",
+      "ranges": [{ "startOffset": 922, "endOffset": 961, "count": 1 }],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "get postalCode",
+      "ranges": [{ "startOffset": 964, "endOffset": 1015, "count": 1 }],
+      "isBlockCoverage": true
+    }
+  ]
+}

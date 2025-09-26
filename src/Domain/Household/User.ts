@@ -1,9 +1,14 @@
 import { Entity, UUIDEntityId } from '@domaincrafters/domain';
 import { Guard } from '@domaincrafters/std';
+import { Location } from 'EcoPath/Domain/mod.ts';
 
 export class UserId extends UUIDEntityId {
     private constructor(id?: string) {
         super(id);
+    }
+
+    static create(id?: string): UserId {
+        return new UserId(id);
     }
 }
 
@@ -36,9 +41,27 @@ export class User extends Entity {
     }
 
     public override validateState(): void {
-        Guard.check(this._name, 'Name is required');
-        Guard.check(this._email, 'Email is required');
-        Guard.check(this._location, 'Location is required');
+        Guard.check(this._name, 'Name is required').againstWhitespace();
+        Guard.check(this._email, 'Email is required').againstWhitespace();
+        
+        if (!this._location) {
+            throw new Error("Location is required");
+        }
     }
-    
+
+    override get id(): UserId {
+      return this._id as UserId;
+    }
+
+    get name(): string {
+        return this._name;
+    }
+
+    get email(): string {
+        return this._email;
+    }
+
+    get location(): Location {
+        return this._location;
+    }
 }

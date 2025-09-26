@@ -1,0 +1,59 @@
+{
+  "scriptId": "370",
+  "url": "file:///C:/Users/Nitro/Documents/GitHub/eco-path/src/Domain/Meters/SensorReading.ts",
+  "functions": [
+    {
+      "functionName": "",
+      "ranges": [{ "startOffset": 0, "endOffset": 1247, "count": 1 }],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "",
+      "ranges": [{ "startOffset": 77, "endOffset": 196, "count": 1 }],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "<instance_members_initializer>",
+      "ranges": [{ "startOffset": 233, "endOffset": 277, "count": 6 }],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "SensorReading",
+      "ranges": [{ "startOffset": 281, "endOffset": 453, "count": 6 }],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "create",
+      "ranges": [{ "startOffset": 463, "endOffset": 653, "count": 6 }],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "validateState",
+      "ranges": [
+        { "startOffset": 656, "endOffset": 1052, "count": 6 },
+        { "startOffset": 992, "endOffset": 1048, "count": 1 }
+      ],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "get smartMeter",
+      "ranges": [{ "startOffset": 1055, "endOffset": 1106, "count": 1 }],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "get timestamp",
+      "ranges": [{ "startOffset": 1109, "endOffset": 1158, "count": 1 }],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "get value",
+      "ranges": [{ "startOffset": 1161, "endOffset": 1202, "count": 1 }],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "get unit",
+      "ranges": [{ "startOffset": 1205, "endOffset": 1244, "count": 1 }],
+      "isBlockCoverage": true
+    }
+  ]
+}

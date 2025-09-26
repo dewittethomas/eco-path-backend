@@ -1,0 +1,306 @@
+SF:C:\Users\Nitro\Documents\GitHub\eco-path\src\Domain\Household\Location.ts
+FN:4,<instance_members_initializer>
+FN:9,Location
+FN:16,create
+FN:22,validateState
+FN:29,get houseNumber
+FN:33,get street
+FN:37,get city
+FN:41,get postalCode
+FNDA:11,<instance_members_initializer>
+FNDA:11,Location
+FNDA:11,create
+FNDA:11,validateState
+FNDA:3,get houseNumber
+FNDA:3,get street
+FNDA:3,get city
+FNDA:3,get postalCode
+FNF:8
+FNH:8
+BRF:0
+BRH:0
+DA:1,4
+DA:3,4
+DA:4,4
+DA:5,15
+DA:6,15
+DA:7,4
+DA:9,4
+DA:10,15
+DA:11,15
+DA:12,15
+DA:13,15
+DA:14,15
+DA:16,4
+DA:17,15
+DA:18,15
+DA:19,15
+DA:20,15
+DA:22,4
+DA:23,15
+DA:24,15
+DA:25,15
+DA:26,15
+DA:27,15
+DA:29,4
+DA:30,7
+DA:31,7
+DA:33,4
+DA:34,7
+DA:35,7
+DA:37,4
+DA:38,7
+DA:39,7
+DA:41,4
+DA:42,7
+DA:43,7
+DA:44,4
+LH:36
+LF:36
+end_of_record
+SF:C:\Users\Nitro\Documents\GitHub\eco-path\src\Domain\Household\User.ts
+FN:6,UserId
+FN:10,create
+FN:16,<instance_members_initializer>
+FN:20,User
+FN:32,create
+FN:43,validateState
+FN:52,get id
+FN:56,get name
+FN:60,get email
+FN:64,get location
+FNDA:3,UserId
+FNDA:3,create
+FNDA:4,<instance_members_initializer>
+FNDA:4,User
+FNDA:4,create
+FNDA:4,validateState
+FNDA:1,get id
+FNDA:1,get name
+FNDA:1,get email
+FNDA:4,get location
+FNF:10
+FNH:10
+BRDA:47,6,0,1
+BRF:1
+BRH:1
+DA:1,4
+DA:2,4
+DA:5,4
+DA:6,4
+DA:7,7
+DA:8,7
+DA:10,4
+DA:11,7
+DA:12,7
+DA:13,4
+DA:15,4
+DA:16,4
+DA:17,8
+DA:18,4
+DA:20,4
+DA:21,4
+DA:22,4
+DA:23,4
+DA:24,4
+DA:25,4
+DA:26,8
+DA:27,8
+DA:28,8
+DA:29,8
+DA:30,8
+DA:32,4
+DA:33,4
+DA:34,4
+DA:35,4
+DA:36,4
+DA:37,4
+DA:38,8
+DA:39,8
+DA:40,8
+DA:41,8
+DA:43,4
+DA:44,8
+DA:45,8
+DA:47,8
+DA:48,9
+DA:49,9
+DA:50,8
+DA:52,4
+DA:53,5
+DA:54,5
+DA:56,4
+DA:57,5
+DA:58,5
+DA:60,4
+DA:61,5
+DA:62,5
+DA:64,4
+DA:65,8
+DA:66,8
+DA:67,4
+LH:55
+LF:55
+end_of_record
+SF:C:\Users\Nitro\Documents\GitHub\eco-path\src\Domain\Meters\SensorReading.ts
+FN:11,<instance_members_initializer>
+FN:16,SensorReading
+FN:28,create
+FN:39,validateState
+FN:50,get smartMeter
+FN:54,get timestamp
+FN:58,get value
+FN:62,get unit
+FNDA:6,<instance_members_initializer>
+FNDA:6,SensorReading
+FNDA:6,create
+FNDA:6,validateState
+FNDA:1,get smartMeter
+FNDA:1,get timestamp
+FNDA:1,get value
+FNDA:1,get unit
+FNF:8
+FNH:8
+BRDA:45,5,0,1
+BRF:1
+BRH:1
+DA:1,4
+DA:4,12
+DA:10,4
+DA:11,4
+DA:12,10
+DA:13,10
+DA:14,4
+DA:16,4
+DA:17,4
+DA:18,4
+DA:19,4
+DA:20,4
+DA:21,4
+DA:22,10
+DA:23,10
+DA:24,10
+DA:25,10
+DA:26,10
+DA:28,4
+DA:29,4
+DA:30,4
+DA:31,4
+DA:32,4
+DA:33,4
+DA:34,10
+DA:35,10
+DA:36,10
+DA:37,10
+DA:39,4
+DA:40,10
+DA:41,10
+DA:42,10
+DA:43,10
+DA:45,10
+DA:46,11
+DA:47,11
+DA:48,10
+DA:50,4
+DA:51,5
+DA:52,5
+DA:54,4
+DA:55,5
+DA:56,5
+DA:58,4
+DA:59,5
+DA:60,5
+DA:62,4
+DA:63,5
+DA:64,5
+DA:65,4
+LH:50
+LF:50
+end_of_record
+SF:C:\Users\Nitro\Documents\GitHub\eco-path\src\Domain\Meters\SmartMeter.ts
+FN:6,SmartMeterId
+FN:10,create
+FN:22,<instance_members_initializer>
+FN:25,SmartMeter
+FN:35,create
+FN:45,validateState
+FN:53,get id
+FN:57,get meterType
+FN:61,get location
+FNDA:5,SmartMeterId
+FNDA:5,create
+FNDA:5,<instance_members_initializer>
+FNDA:5,SmartMeter
+FNDA:5,create
+FNDA:5,validateState
+FNDA:1,get id
+FNDA:1,get meterType
+FNDA:4,get location
+FNF:9
+FNH:9
+BRDA:48,7,0,1
+BRF:1
+BRH:1
+DA:1,4
+DA:2,4
+DA:5,4
+DA:6,4
+DA:7,9
+DA:8,9
+DA:10,4
+DA:11,9
+DA:12,9
+DA:13,4
+DA:15,12
+DA:21,4
+DA:22,4
+DA:23,4
+DA:25,4
+DA:26,4
+DA:27,4
+DA:28,4
+DA:29,4
+DA:30,9
+DA:31,9
+DA:32,9
+DA:33,9
+DA:35,4
+DA:36,4
+DA:37,4
+DA:38,4
+DA:39,4
+DA:40,9
+DA:41,9
+DA:42,9
+DA:43,9
+DA:45,4
+DA:46,9
+DA:48,9
+DA:49,10
+DA:50,10
+DA:51,9
+DA:53,4
+DA:54,5
+DA:55,5
+DA:57,4
+DA:58,5
+DA:59,5
+DA:61,4
+DA:62,8
+DA:63,8
+DA:64,4
+LH:48
+LF:48
+end_of_record
+SF:C:\Users\Nitro\Documents\GitHub\eco-path\src\Domain\mod.ts
+FNF:0
+FNH:0
+BRF:0
+BRH:0
+DA:1,4
+DA:2,4
+DA:3,4
+DA:4,4
+LH:4
+LF:4
+end_of_record

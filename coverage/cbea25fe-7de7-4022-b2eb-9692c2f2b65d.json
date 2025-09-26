@@ -1,0 +1,11 @@
+{
+  "scriptId": "336",
+  "url": "file:///C:/Users/Nitro/Documents/GitHub/eco-path/src/Domain/mod.ts",
+  "functions": [
+    {
+      "functionName": "",
+      "ranges": [{ "startOffset": 0, "endOffset": 299, "count": 1 }],
+      "isBlockCoverage": true
+    }
+  ]
+}

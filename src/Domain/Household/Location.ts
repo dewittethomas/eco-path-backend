@@ -20,9 +20,25 @@ export class Location {
     }
 
     public validateState(): void {
-        Guard.check(this._houseNumber, 'House number is required');
-        Guard.check(this._street, 'Street is required');
-        Guard.check(this._city, 'City is required');
-        Guard.check(this._postalCode, 'Postal code is required');
+        Guard.check(this._houseNumber, 'House number is required').againstWhitespace();
+        Guard.check(this._street, 'Street is required').againstWhitespace();
+        Guard.check(this._city, 'City is required').againstWhitespace();
+        Guard.check(this._postalCode, 'Postal code is required').againstWhitespace();
+    }
+
+    get houseNumber(): string {
+        return this._houseNumber;
+    }
+
+    get street(): string {
+        return this._street;
+    }
+
+    get city(): string {
+        return this._city;
+    }
+
+    get postalCode(): string {
+        return this._postalCode;
     }
 }

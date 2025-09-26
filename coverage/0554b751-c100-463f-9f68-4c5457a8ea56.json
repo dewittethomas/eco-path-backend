@@ -1,0 +1,36 @@
+{
+  "scriptId": "333",
+  "url": "file:///C:/Users/Nitro/Documents/GitHub/eco-path/tests/Unit/Domain/Meters/SmartMeter_test.ts",
+  "functions": [
+    {
+      "functionName": "",
+      "ranges": [{ "startOffset": 0, "endOffset": 1185, "count": 1 }],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "",
+      "ranges": [{ "startOffset": 223, "endOffset": 740, "count": 1 }],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "",
+      "ranges": [{ "startOffset": 804, "endOffset": 992, "count": 1 }],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "",
+      "ranges": [{ "startOffset": 938, "endOffset": 988, "count": 1 }],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "",
+      "ranges": [{ "startOffset": 1056, "endOffset": 1182, "count": 1 }],
+      "isBlockCoverage": true
+    },
+    {
+      "functionName": "",
+      "ranges": [{ "startOffset": 1113, "endOffset": 1178, "count": 1 }],
+      "isBlockCoverage": true
+    }
+  ]
+}

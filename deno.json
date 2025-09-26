@@ -1,15 +1,19 @@
 {
   "lock": false,
   "nodeModulesDir": "none",
+  "test": {
+        "include": ["tests/"]
+  },
   "tasks": {
-    "dev": "deno run --watch main.ts",
-    "run": "deno run --allow-net --allow-read --allow-write --allow-sys src/Main/Main.ts"
-
+    "run": "deno run --allow-net --allow-read --allow-write --allow-sys src/Main/Main.ts",
+    "test": "deno test -A --coverage; deno coverage --exclude=tests; deno coverage --exclude=tests --html"
   },
   "imports": {
+    "@domaincrafters/application": "jsr:@domaincrafters/application@^1.0.2",
     "@domaincrafters/domain": "jsr:@domaincrafters/domain@^1.1.1",
     "@domaincrafters/std": "jsr:@domaincrafters/std@^1.1.0",
     "@oak/oak": "jsr:@oak/oak@^17.1.6",
-    "@std/assert": "jsr:@std/assert@1"
+    "@std/assert": "jsr:@std/assert@1",
+    "EcoPath/": "./src/"
   }
 }
