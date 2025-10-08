@@ -6,3 +6,4 @@ export type { SmartMeterRepository } from 'EcoPath/Domain/Meters/SmartMeterRepos
 
 // -- USECASE INPUT/OUTPUT --
 export type { SaveUserInput } from 'EcoPath/Application/Household/SaveUser.ts';
+export type { SaveSmartMeterInput } from 'EcoPath/Application/Meters/SaveSmartMeter.ts';
