@@ -46,5 +46,3 @@ export class SaveUser implements UseCase<SaveUserInput> {
         })
     }
 }
-
-        
