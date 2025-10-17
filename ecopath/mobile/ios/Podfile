@@ -1,0 +1,46 @@
+platform :ios, '13.0'
+ENV['COCOAPODS_DISABLE_STATS'] = 'true'
+
+project 'Runner', {
+  'Debug' => :debug,
+  'Profile' => :release,
+  'Release' => :release,
+}
+
+# Locate FLUTTER_ROOT from Generated.xcconfig
+def flutter_root
+  generated = File.expand_path(File.join('..', 'Flutter', 'Generated.xcconfig'), __FILE__)
+  unless File.exist?(generated)
+    raise "Generated.xcconfig must exist. Run `flutter pub get` first."
+  end
+  File.foreach(generated) do |line|
+    m = line.match(/FLUTTER_ROOT\=(.*)/)
+    return m[1].strip if m
+  end
+  raise "FLUTTER_ROOT not found in Generated.xcconfig."
+end
+
+# Load Flutter’s CocoaPods helper
+require File.expand_path(File.join(flutter_root, 'packages', 'flutter_tools', 'bin', 'podhelper'))
+
+# Standard Flutter setup
+flutter_ios_podfile_setup
+
+target 'Runner' do
+  # Static frameworks are safest with Flutter plugins
+  use_frameworks! :linkage => :static
+  use_modular_headers!
+
+  flutter_install_all_ios_pods(File.dirname(File.realpath(__FILE__)))
+end
+
+post_install do |installer|
+  # Modern Flutter uses this per-target hook (not `flutter_post_install`)
+  installer.pods_project.targets.each do |target|
+    flutter_additional_ios_build_settings(target)
+    # Enforce minimum iOS target across all pods
+    target.build_configurations.each do |config|
+      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '13.0'
+    end
+  end
+end
