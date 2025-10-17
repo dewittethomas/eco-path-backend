@@ -6,5 +6,5 @@ export enum WasteType {
     CARDBOARD = "cardboard",
     PAPER = "paper",
     GENERAL_WASTE = "general_waste",
-    BIO_WASTE = "bio_waste",
+    BIO_WASTE = "bio_waste"
 }

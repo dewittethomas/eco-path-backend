@@ -1,0 +1,12 @@
+[33mc40c30f[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m Added WasteType enum
+[33mfda1f46[m Added WasteType enum
+[33mc9193da[m[33m ([m[1;31morigin/main[m[33m)[m Added entity WasteScan + unit test
+[33m0d61ab9[m Added CI Pipeline
+[33m6a9d73c[m Made unit test for save smart meter usecase
+[33meba7d85[m Added MeterType to SaveSmartMeter usecase
+[33m1c25c4f[m Wrote unit test for Save User usecase
+[33m4cbec71[m Deleted coverage folder
+[33mee334c4[m Wrote unit tests for entities, started application layer
+[33m39ab553[m Added household entities to domain layer
+[33m091ac62[m Added folder structure
+[33mb3d9c44[m Initialized project
