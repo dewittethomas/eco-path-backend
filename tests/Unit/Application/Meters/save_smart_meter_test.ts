@@ -1,4 +1,4 @@
-import { SaveSmartMeter } from "EcoPath/Application/Meters/SaveSmartMeter.ts";
+import { SaveSmartMeter } from "EcoPath/Application/mod.ts";
 import { MockSmartMeterRepository, MockUnitOfWork } from "EcoPath/tests/Unit/Shared/mod.ts";
 import { SmartMeterId } from "EcoPath/Domain/mod.ts";
 import { MeterType } from "EcoPath/Domain/Meters/SmartMeter.ts";
