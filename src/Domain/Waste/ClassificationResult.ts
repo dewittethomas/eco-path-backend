@@ -10,3 +10,4 @@ export class ClassificationResultId extends UUIDEntityId {
         return new ClassificationResultId(id);
     }
 }
+
