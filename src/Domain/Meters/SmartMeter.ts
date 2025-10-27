@@ -43,8 +43,17 @@ export class SmartMeter extends Entity {
     }
 
     public override validateState(): void {
-        Guard.check(this._meterType, 'Meter type is required').againstWhitespace();
-        
+        this.ensureMeterTypeIsNotEmptyandExists();
+        this.ensureLocationIsNotEmpty();
+    }
+
+    private ensureMeterTypeIsNotEmptyandExists() {
+        if (!this._meterType || !Object.values(MeterType).includes(this._meterType)) {
+            throw new Error(`Invalid meter type: ${this._meterType}`);
+        }
+    }
+
+    private ensureLocationIsNotEmpty() {
         if (!this._location) {
             throw new Error("Location is required");
         }

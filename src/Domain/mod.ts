@@ -4,4 +4,7 @@ export { SmartMeter, SmartMeterId, MeterType } from 'EcoPath/Domain/Meters/Smart
 export { SensorReading, Unit } from 'EcoPath/Domain/Meters/SensorReading.ts';
 export { WasteScan, WasteScanId } from 'EcoPath/Domain/Waste/WasteScan.ts';
 export { WasteType } from 'EcoPath/Domain/Waste/WasteType.ts';
+export { WasteCarbonFactors } from 'EcoPath/Domain/Waste/WasteCarbonFactors.ts';
+export { EcologicalFootprint } from 'EcoPath/Domain/EcologicalFootprints/EcologicalFootprint.ts';
 export { ClassificationResult, ClassificationResultId } from 'EcoPath/Domain/Waste/ClassificationResult.ts';
+export { }

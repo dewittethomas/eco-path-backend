@@ -98,33 +98,33 @@ Deno.test("User Entity - Fails with Future Birth Date", () => {
 });
 
 Deno.test("User Entity - Fails with Invalid Enum Values", async (t) => {
-  const data = makeValidUserData();
+    const data = makeValidUserData();
 
-  await t.step("Invalid Gender", () => {
-    assertThrows(() => {
-        User.create(
-            data.id,
-            data.name,
-            data.email,
-            data.birthDate,
-            "invalid_gender" as unknown as Gender,
-            data.housingType,
-            data.location
-        );
-    }, Error, "Invalid gender");
-  });
+    await t.step("Invalid Gender", () => {
+        assertThrows(() => {
+            User.create(
+                data.id,
+                data.name,
+                data.email,
+                data.birthDate,
+                "invalid_gender" as unknown as Gender,
+                data.housingType,
+                data.location
+            );
+        }, Error, "Invalid gender");
+    });
 
-  await t.step("Invalid HousingType", () => {
-    assertThrows(() => {
-        User.create(
-            data.id,
-            data.name,
-            data.email,
-            data.birthDate,
-            data.gender,
-            "invalid_housing" as unknown as HousingType,
-            data.location
-        );
-    }, Error, "Invalid housingType");
-  });
+    await t.step("Invalid HousingType", () => {
+        assertThrows(() => {
+            User.create(
+                data.id,
+                data.name,
+                data.email,
+                data.birthDate,
+                data.gender,
+                "invalid_housing" as unknown as HousingType,
+                data.location
+            );
+        }, Error, "Invalid housingType");
+    });
 });

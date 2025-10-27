@@ -37,14 +37,32 @@ export class SensorReading {
     }
 
     public validateState(): void {
+        this.ensureSmartMeterIsNotEmpty();
         Guard.check(this._timestamp, 'Timestamp is required').againstNullOrUndefined();
         Guard.check(this._value, 'Value is required').againstZero();
         Guard.check(this._value, 'Value must be non-negative').againstNegative();
-        Guard.check(this._unit, 'Unit is required').againstEmpty();
+        this.ensureUnitIsNotEmptyandExists();
+    }
 
+    private ensureSmartMeterIsNotEmpty() {
         if (!this._smartMeter) {
-            throw new Error("SmartMeter is required");
+            throw new Error("Smart meter is required");
         }
+    }
+
+    private ensureTimestampIsNotInFuture() {
+        
+    }
+
+    private ensureUnitIsNotEmptyandExists() {
+        if (!this._unit || !Object.values(Unit).includes(this._unit)) {
+            throw new Error(`Invalid unit: ${this._unit}`);
+        }
+    }
+
+    equals(other: SensorReading): boolean {
+        return this.smartMeter === other.smartMeter && this.timestamp === other.timestamp &&
+            this.value === other.value && this.unit === other.unit; 
     }
 
     get smartMeter(): SmartMeter {

@@ -56,6 +56,12 @@ export class WasteScan extends Entity {
         }
     }
 
+    private ensureTimestampIsInThePast() {
+        if(this._timestamp > new Date()) {
+            throw new Error('Timestamp should be in the past');
+        }
+    }
+
     override get id(): WasteScanId {
         return this._id as WasteScanId;
     }
