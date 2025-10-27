@@ -45,14 +45,11 @@ export class ClassificationResult extends Entity {
     }
 
     override validateState(): void {
-        Guard.check(this._scanId, 'Scan ID is required').againstNullOrUndefined();
-        Guard.check(this._wasteType, 'Waste type is required').againstNullOrUndefined();
+        Guard.check(this._scanId, "ScanID is required").againstNullOrUndefined();
+        Guard.check(this._wasteType, 'Waste type is required').againstEmpty();
         Guard.check(this._timestamp, 'Timestamp is required').againstNullOrUndefined();
         Guard.check(this._confidence, 'Confidence is required').againstNullOrUndefined();
-
-        if (this._confidence < 0 || this._confidence > 1) {
-            throw new Error('Confidence must be between 0 and 1');
-        }
+        Guard.check(this._confidence, 'Confidence must be between 0 and 1').isInRange(0, 1);
 
         const now = new Date();
         if (this._timestamp.getTime() > now.getTime()) {

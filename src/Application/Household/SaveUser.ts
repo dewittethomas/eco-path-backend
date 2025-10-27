@@ -1,11 +1,14 @@
 import type { UseCase } from'@domaincrafters/application';
 import type { UserRepository, UnitOfWork } from "EcoPath/Application/Contracts/mod.ts";
-import { User, UserId, Location } from "EcoPath/Domain/mod.ts";
+import { User, UserId, Gender, HousingType, Location } from "EcoPath/Domain/mod.ts";
 
 export interface SaveUserInput {
     id: string;
     name: string;
     email: string;
+    birthDate: string;
+    gender: string;
+    housingType: string;
     location: {
         houseNumber: string;
         street: string;
@@ -39,6 +42,9 @@ export class SaveUser implements UseCase<SaveUserInput> {
                 UserId.create(input.id),
                 input.name,
                 input.email,
+                new Date(input.birthDate),
+                input.gender as Gender,
+                input.housingType as HousingType,
                 location
             );
 

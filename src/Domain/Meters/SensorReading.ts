@@ -2,9 +2,9 @@ import { Guard } from '@domaincrafters/std';
 import { SmartMeter } from 'EcoPath/Domain/mod.ts';
 
 export enum Unit {
-    KILOWATT_HOUR = 'kWh',
-    CUBIC_METER = 'm3',
-    LITER = 'L',
+  KilowattHour = 'kWh',
+  CubicMeter = 'm3',
+  Liter = 'l',
 }
 
 export class SensorReading {

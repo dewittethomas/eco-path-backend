@@ -16,7 +16,7 @@ Deno.test("SaveClassificationResult - Successfully saves a classification result
 
     const id = ClassificationResultId.create();
     const scanId = WasteScanId.create();
-    const wasteType = WasteType.PLASTIC;
+    const wasteType = WasteType.Plastic;
     const confidence = 0.92;
     const timestamp = new Date();
 

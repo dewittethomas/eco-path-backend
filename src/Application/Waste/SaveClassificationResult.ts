@@ -5,7 +5,7 @@ import { ClassificationResult, ClassificationResultId, WasteScanId, WasteType } 
 export interface SaveClassificationResultInput {
     id: string;
     scanId: string;
-    wasteType: WasteType;
+    wasteType: string;
     confidence: number;
     timestamp: Date;
 }
@@ -27,7 +27,7 @@ export class SaveClassificationResult implements UseCase<SaveClassificationResul
             const result = ClassificationResult.create(
                 ClassificationResultId.create(input.id),
                 WasteScanId.create(input.scanId),
-                input.wasteType,
+                input.wasteType as WasteType,
                 input.confidence,
                 input.timestamp,
             );

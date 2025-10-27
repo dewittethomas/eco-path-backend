@@ -1,6 +1,6 @@
 import { SaveUser } from "EcoPath/Application/mod.ts";
 import { MockUserRepository, MockUnitOfWork } from "EcoPath/tests/Unit/Shared/mod.ts";
-import { UserId } from "EcoPath/Domain/mod.ts";
+import { UserId, Gender, HousingType } from "EcoPath/Domain/mod.ts";
 import { SaveUserInput } from "EcoPath/Application/Contracts/mod.ts";
 import { assert } from "@std/assert/assert";
 
@@ -20,6 +20,9 @@ Deno.test("SaveUser - Succesfully saves a user", async () => {
         id: id.toString(),
         name: "John Doe",
         email: "john.doe@example.com",
+        birthDate: "2000-01-01T00:00:00Z",
+        gender: "male",
+        housingType: "house",
         location: {
             houseNumber: "11",
             street: "Main Street",

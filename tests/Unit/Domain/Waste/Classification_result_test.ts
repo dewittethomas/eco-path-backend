@@ -6,7 +6,7 @@ import { ClassificationResult, ClassificationResultId, WasteScanId, WasteType } 
 Deno.test("Create ClassificationResult - Success", () => {
   const id = ClassificationResultId.create();
   const scanId = WasteScanId.create();
-  const wasteType = WasteType.PLASTIC;
+  const wasteType = WasteType.Plastic;
   const confidence = 0.87;
   const timestamp = new Date();
 
@@ -22,7 +22,7 @@ Deno.test("Create ClassificationResult - Success", () => {
 Deno.test("Create ClassificationResult - Fail (Missing Fields)", async (t) => {
   const id = ClassificationResultId.create();
   const scanId = WasteScanId.create();
-  const wasteType = WasteType.METAL;
+  const wasteType = WasteType.Metal;
   const confidence = 0.8;
   const timestamp = new Date();
 
@@ -45,7 +45,7 @@ Deno.test("Create ClassificationResult - Fail (Missing Fields)", async (t) => {
 Deno.test("Create ClassificationResult - Fail (Invalid Confidence)", async (t) => {
   const id = ClassificationResultId.create();
   const scanId = WasteScanId.create();
-  const wasteType = WasteType.CARDBOARD;
+  const wasteType = WasteType.Cardboard;
   const timestamp = new Date();
 
   const cases = [
@@ -65,7 +65,7 @@ Deno.test("Create ClassificationResult - Fail (Invalid Confidence)", async (t) =
 Deno.test("Create ClassificationResult - Fail (Future Timestamp)", () => {
   const id = ClassificationResultId.create();
   const scanId = WasteScanId.create();
-  const wasteType = WasteType.BIO_WASTE;
+  const wasteType = WasteType.BioWaste;
   const confidence = 0.5;
   const timestamp = new Date(Date.now() + 60_000);
 

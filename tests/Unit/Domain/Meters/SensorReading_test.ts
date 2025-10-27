@@ -11,12 +11,12 @@ Deno.test("Create SensorReading - Success", () => {
 
     const timestamp = new Date("2023-10-01T10:00:00Z")
 
-    const sensorReading = SensorReading.create(smartMeter, timestamp, 150.5, Unit.KILOWATT_HOUR);
+    const sensorReading = SensorReading.create(smartMeter, timestamp, 150.5, Unit.KilowattHour);
 
     assertEquals(sensorReading.smartMeter, smartMeter);
     assertEquals(sensorReading.timestamp, timestamp);
     assertEquals(sensorReading.value, 150.5);
-    assertEquals(sensorReading.unit, Unit.KILOWATT_HOUR);
+    assertEquals(sensorReading.unit, Unit.KilowattHour);
 });
 
 
@@ -29,9 +29,9 @@ Deno.test("Create SensorReading - Fail (Required Fields)", async (t) => {
     const timestamp = new Date();
 
     const cases = [
-        { timestamp: null as unknown as Date, value: 150.5, unit: Unit.KILOWATT_HOUR, msg: "empty timestamp" },
-        { timestamp: timestamp, value: 0, unit: Unit.KILOWATT_HOUR, msg: "zero value" },
-        { timestamp: timestamp, value: -10, unit: Unit.KILOWATT_HOUR, msg: "negative value" },
+        { timestamp: null as unknown as Date, value: 150.5, unit: Unit.KilowattHour, msg: "empty timestamp" },
+        { timestamp: timestamp, value: 0, unit: Unit.KilowattHour, msg: "zero value" },
+        { timestamp: timestamp, value: -10, unit: Unit.KilowattHour, msg: "negative value" },
         { timestamp: timestamp, value: 150.5, unit: null as unknown as Unit, msg: "empty unit" },
     ];
 
@@ -48,6 +48,6 @@ Deno.test("Create SensorReading - Fails with missing SmartMeter", () => {
     const timestamp = new Date("2023-10-01T10:00:00Z")
 
     assertThrows(() => {
-        SensorReading.create(null as unknown as SmartMeter, timestamp, 150.5, Unit.KILOWATT_HOUR);
+        SensorReading.create(null as unknown as SmartMeter, timestamp, 150.5, Unit.KilowattHour);
     });
 });
