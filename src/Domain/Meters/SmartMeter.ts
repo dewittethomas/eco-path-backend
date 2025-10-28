@@ -1,5 +1,4 @@
 import { Entity, UUIDEntityId } from '@domaincrafters/domain';
-import { Guard } from '@domaincrafters/std';
 import { ExtraGuard, Location } from 'EcoPath/Domain/mod.ts';
 
 export class SmartMeterId extends UUIDEntityId {

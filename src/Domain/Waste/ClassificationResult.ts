@@ -1,5 +1,4 @@
 import { Entity, UUIDEntityId } from '@domaincrafters/domain';
-import { Guard } from '@domaincrafters/std';
 import { ExtraGuard, WasteScanId, WasteType } from 'EcoPath/Domain/mod.ts';
 
 export class ClassificationResultId extends UUIDEntityId {
