@@ -1,0 +1,90 @@
+import type { UseCase } from '@domaincrafters/application';
+import type { RouterContext } from '@oak/oak';
+import { Guard } from '@domaincrafters/std';
+import {
+    RequestValidator,
+    type WebApiController,
+    WebApiRequest,
+    WebApiResult,
+} from 'EcoPath/Infrastructure/WebApi/Shared/mod.ts';
+
+import type { SaveUserInput } from 'EcoPath/Application/Contracts/mod.ts';
+import type { Gender, HousingType } from 'EcoPath/Domain/mod.ts';
+
+export interface SaveUserBody {
+    id: string;
+    name: string;
+    email: string;
+    avatarImage: string;
+
+    birthDate: string;
+    gender: Gender;
+    housingType: HousingType;
+    householdSize: number;
+    ecoGoals: string[];
+
+    location: {
+        houseNumber: string;
+        street: string;
+        city: string;
+        postalCode: string;
+    };
+}
+
+export class SaveUserController implements WebApiController {
+    private readonly _saveUser: UseCase<SaveUserInput>;
+
+    constructor(saveUser: UseCase<SaveUserInput>) {
+        this._saveUser = saveUser;
+    }
+
+    async handle(ctx: RouterContext<string>): Promise<void> {
+        const request: WebApiRequest = await WebApiRequest.create(ctx, this.validateRequest);
+        const body: SaveUserBody = await request.body<SaveUserBody>();
+
+        const input: SaveUserInput = {
+            id: body.id,
+            name: body.name,
+            email: body.email,
+            avatarImage: body.avatarImage,
+            userProfile: {
+                birthDate: new Date(body.birthDate),
+                gender: body.gender,
+                location: {
+                    houseNumber: body.location.houseNumber,
+                    street: body.location.street,
+                    city: body.location.city,
+                    postalCode: body.location.postalCode,
+                },
+                housingType: body.housingType,
+                householdSize: body.householdSize,
+                ecoGoals: body.ecoGoals,
+            }
+        };
+
+        await this._saveUser.execute(input);
+
+        WebApiResult.created(ctx, `/users/${input.id}`);
+    }
+
+    private async validateRequest(ctx: RouterContext<string>): Promise<void> {
+        const body: SaveUserBody = await ctx.request.body.json() as SaveUserBody;
+
+        RequestValidator
+            .create([
+                () => Guard.check(body.id).againstEmpty('User ID is required'),
+                () => Guard.check(body.name).againstEmpty('Name is required'),
+                () => Guard.check(body.email).againstEmpty('Email is required'),
+                () => Guard.check(body.avatarImage).againstEmpty('Avatar image is required'),
+                () => Guard.check(body.birthDate).againstEmpty('Birth date is required'),
+                () => Guard.check(body.gender).againstEmpty('Gender is required'),
+                () => Guard.check(body.housingType).againstEmpty('Housing type is required'),
+                () => Guard.check(body.householdSize).againstNegative().againstZero(),
+                () => Guard.check(body.location).againstNullOrUndefined('Location is required'),
+                () => Guard.check(body.location.city).againstEmpty('City is required'),
+                () => Guard.check(body.location.postalCode).againstEmpty('Postal code is required'),
+            ])
+            .onValidationFailure('Invalid request: Missing or malformed data')
+            .validate();
+    }
+}

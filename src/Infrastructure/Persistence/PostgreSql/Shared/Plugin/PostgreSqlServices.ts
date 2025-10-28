@@ -29,7 +29,7 @@ export class PostgreSqlServices {
     ): typeof PostgreSqlServices {
 
         services.addScoped(
-            'postgresqlClient',
+            'postgreSqlClient',
             this.buildPostgreSqlClientFactory(config),
             this.buildPostgreSqlClientDisposer()
         );
@@ -42,9 +42,9 @@ export class PostgreSqlServices {
     ): typeof PostgreSqlServices {
 
         services.addScoped(
-            'postgresqlUnitOfWork',
+            'postgreSqlUnitOfWork',
             async (provider: ServiceProvider) => {
-                const clientWrapper = (await provider.getService<PostgreSqlClient>('postgresqlClient')).value;
+                const clientWrapper = (await provider.getService<PostgreSqlClient>('postgreSqlClient')).value;
                 return new PostgreSqlUnitOfWork(clientWrapper);
             }
         );
@@ -54,7 +54,7 @@ export class PostgreSqlServices {
 
     private static buildPostgreSqlClientFactory(config: Config): ServiceFactory {
         return async (): Promise<PostgreSqlClient> => {
-            const host = config.get('PERSISTENCE_POSTGRESQL_HOST');
+            const host = config.get('PERSISTENCE_POSTGRESQL_HOSTNAME');
             const db = config.get('PERSISTENCE_POSTGRESQL_DATABASE');
             const port = config.get('PERSISTENCE_POSTGRESQL_PORT');
             const user = config.get('PERSISTENCE_POSTGRESQL_USER');

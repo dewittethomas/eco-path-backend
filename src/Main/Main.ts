@@ -1,9 +1,23 @@
-import { Application } from "@oak/oak";
+import { PersistenceModule, WebApiModule } from 'EcoPath/Main/mod.ts';
+import {
+    DIServiceCollection,
+    DIServiceProvider,
+    type ServiceCollection,
+    type ServiceProvider,
+} from '@domaincrafters/di';
+import { Config } from 'EcoPath/Infrastructure/Shared/mod.ts';
 
-const app = new Application();
+class Main {
+    static async init() {
+        const config: Config = Config.create();
+        const serviceCollection: ServiceCollection = DIServiceCollection.create();
+        const serviceProvider: ServiceProvider = DIServiceProvider.create(serviceCollection);
 
-app.use((ctx) => {
-  ctx.response.body = "Hello World!";
-});
+        PersistenceModule.add(serviceCollection, config);
+        WebApiModule.add(serviceCollection, config);
 
-await app.listen({ port: 8000 });
+        await WebApiModule.use(serviceProvider);
+    }
+}
+
+Main.init();
