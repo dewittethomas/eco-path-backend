@@ -1,7 +1,7 @@
 import { Client } from '@db/postgres';
 import { Guard, IllegalStateException, Optional } from "@domaincrafters/std";
 
-export class PostgreSQLClient {
+export class PostgreSqlClient {
     private readonly _client: Client;
 
     static createConnectionString(
@@ -65,6 +65,11 @@ export class PostgreSQLClient {
 
     async delete(query: string, params: unknown[]): Promise<void> {
         await this._client.queryArray(query, params);
+    }
+
+    async execute(query: string, params: unknown[]): Promise<{ rowCount: number }> {
+        const result = await this._client.queryArray(query, params);
+        return { rowCount: result.rowCount ?? 0 };
     }
 
     async transaction<T>(fn: () => Promise<T>): Promise<T> {

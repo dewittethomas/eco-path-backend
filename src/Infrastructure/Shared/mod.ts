@@ -1,0 +1,1 @@
+export { Config } from 'EcoPath/Infrastructure/Shared/Config.ts';

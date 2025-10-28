@@ -2,7 +2,7 @@ import type { EntityId } from '@domaincrafters/domain';
 
 export type PgRecord = Record<string, unknown>;
 
-export interface DocumentMapper<Entity> {
+export interface RecordMapper<Entity> {
     reconstitute(record: PgRecord): Entity;
     toRecord(entity: Entity): PgRecord;
 }
