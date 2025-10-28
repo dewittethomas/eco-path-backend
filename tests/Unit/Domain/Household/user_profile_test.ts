@@ -5,8 +5,10 @@ function makeValidProfileData() {
     return {
         birthDate: new Date(2000, 5, 15),
         gender: Gender.Male,
-        housingType: HousingType.House,
         location: Location.create('11', 'Main Street', 'New York', '1000'),
+        housingType: HousingType.House,
+        householdSize: 3,
+        ecoGoals: ['reduce waste', 'save energy']
     };
 }
 
@@ -16,13 +18,17 @@ Deno.test("UserProfile - Create Successfully", () => {
     const profile = UserProfile.create(
         data.birthDate,
         data.gender,
+        data.location,
         data.housingType,
-        data.location
+        data.householdSize,
+        data.ecoGoals,
     );
 
     assertEquals(profile.birthDate.getTime(), data.birthDate.getTime());
     assertEquals(profile.gender, data.gender);
     assertEquals(profile.housingType, data.housingType);
+    assertEquals(profile.householdSize, data.householdSize);
+    assertEquals(profile.ecoGoals, data.ecoGoals);
 
     const location = profile.location;
     const expected = data.location;
@@ -38,10 +44,12 @@ Deno.test("UserProfile - Fails on Invalid BirthDate", () => {
 
     assertThrows(() => {
         UserProfile.create(
-            new Date(3000, 1, 1),
+            new Date(3000, 1, 1), // future date
             data.gender,
+            data.location,
             data.housingType,
-            data.location
+            data.householdSize,
+            data.ecoGoals,
         );
     }, Error);
 });
@@ -51,30 +59,22 @@ Deno.test("UserProfile - Fails on Null or Undefined Fields", async (t) => {
 
     const invalidCases = [
         {
+            ...data,
             birthDate: null as unknown as Date,
-            gender: data.gender,
-            housingType: data.housingType,
-            location: data.location,
             msg: "null birthDate",
         },
         {
-            birthDate: data.birthDate,
+            ...data,
             gender: null as unknown as Gender,
-            housingType: data.housingType,
-            location: data.location,
             msg: "null gender",
         },
         {
-            birthDate: data.birthDate,
-            gender: data.gender,
+            ...data,
             housingType: null as unknown as HousingType,
-            location: data.location,
             msg: "null housingType",
         },
         {
-            birthDate: data.birthDate,
-            gender: data.gender,
-            housingType: data.housingType,
+            ...data,
             location: null as unknown as Location,
             msg: "null location",
         },
@@ -86,8 +86,10 @@ Deno.test("UserProfile - Fails on Null or Undefined Fields", async (t) => {
                 UserProfile.create(
                     c.birthDate,
                     c.gender,
+                    c.location,
                     c.housingType,
-                    c.location
+                    c.householdSize,
+                    c.ecoGoals,
                 );
             }, Error);
         });
@@ -105,8 +107,10 @@ Deno.test("UserProfile - Fails on Invalid Enum Values", async (t) => {
             UserProfile.create(
                 data.birthDate,
                 invalidGender,
+                data.location,
                 data.housingType,
-                data.location
+                data.householdSize,
+                data.ecoGoals,
             );
         }, Error);
     });
@@ -116,9 +120,26 @@ Deno.test("UserProfile - Fails on Invalid Enum Values", async (t) => {
             UserProfile.create(
                 data.birthDate,
                 data.gender,
+                data.location,
                 invalidHousingType,
-                data.location
+                data.householdSize,
+                data.ecoGoals,
             );
         }, Error);
     });
+});
+
+Deno.test("UserProfile - Fails on Household Size <= 0", () => {
+    const data = makeValidProfileData();
+
+    assertThrows(() => {
+        UserProfile.create(
+            data.birthDate,
+            data.gender,
+            data.location,
+            data.housingType,
+            0, // invalid
+            data.ecoGoals,
+        );
+    }, Error);
 });

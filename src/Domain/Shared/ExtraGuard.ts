@@ -53,6 +53,10 @@ export class ExtraGuard<T> {
         return this;
     }
 
+    public ensureNumberIsAboveZero(message?: string) {
+        Guard.check(this.value, message).againstZero().againstNegative();
+    }
+
     public ensureStringIsInBase64Format(message?: string) {
         Guard.check(this.value, message).matches(/^[A-Za-z0-9+/=]+$/);
         return this;

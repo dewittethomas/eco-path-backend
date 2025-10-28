@@ -9,10 +9,14 @@ import {
 
 function makeValidEcologicalFootprint(): EcologicalFootprint {
     const totalWaste = new Map<WasteType, number>([
+        [WasteType.Glass, 0],
         [WasteType.Plastic, 10],
-        [WasteType.Paper, 5],
         [WasteType.Metal, 2],
+        [WasteType.PaperAndCardboard, 5],
+        [WasteType.GeneralWaste, 0],
+        [WasteType.BioWaste, 0],
     ]);
+
     return EcologicalFootprint.create(50, 100, totalWaste);
 }
 

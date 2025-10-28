@@ -10,13 +10,15 @@ export interface SaveUserInput {
     userProfile: {
         birthDate: Date;
         gender: Gender;
-        housingType: HousingType
         location: {
             houseNumber: string,
             street: string,
             city: string,
             postalCode: string
         }
+        housingType: HousingType;
+        householdSize: number;
+        ecoGoals: string[];
     }
 }
 
@@ -44,8 +46,10 @@ export class SaveUser implements UseCase<SaveUserInput> {
             const userProfile: UserProfile = UserProfile.create(
                 input.userProfile.birthDate,
                 input.userProfile.gender,
+                location,
                 input.userProfile.housingType,
-                location
+                input.userProfile.householdSize,
+                input.userProfile.ecoGoals
             )
 
             const user = User.create(

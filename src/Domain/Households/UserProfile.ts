@@ -9,38 +9,45 @@ export enum Gender {
 
 export enum HousingType {
     Apartment = 'apartment',
-    Studio = 'studio',
     House = 'house',
-    SharedHouse = 'shared_house',
     OneRoomStudio = 'one_room_studio',
+    SharedHouse = 'shared_house',
     Other = 'other'
 }
 
 export class UserProfile {
     private readonly _birthDate: Date;
     private readonly _gender: Gender;
-    private readonly _housingType: HousingType;
     private readonly _location: Location;
+    private readonly _housingType: HousingType;
+    private readonly _householdSize: number;
+    private readonly _ecoGoals: string[];
 
     private constructor(
         birthDate: Date,
         gender: Gender,
+        location: Location,
         housingType: HousingType,
-        location: Location
+        householdSize: number,
+        ecoGoals: string[]
     ) {
         this._birthDate = birthDate;
         this._gender = gender;
-        this._housingType = housingType;
         this._location = location;
+        this._housingType = housingType;
+        this._householdSize = householdSize;
+        this._ecoGoals = ecoGoals;
     }
 
     public static create(
         birthDate: Date,
         gender: Gender,
+        location: Location,
         housingType: HousingType,
-        location: Location
+        householdSize: number,
+        ecoGoals: string[]
     ) {
-        const userProfile = new UserProfile(birthDate, gender, housingType, location);
+        const userProfile = new UserProfile(birthDate, gender, location, housingType, householdSize, ecoGoals);
         userProfile.validateState();
         return userProfile;
     }
@@ -48,8 +55,9 @@ export class UserProfile {
     public validateState(): void {
         ExtraGuard.check(this._birthDate, 'birthDate').againstNullOrUndefined().ensureIsValidDate().ensureDateIsInThePast();
         ExtraGuard.check(this._gender, 'gender').againstNullOrUndefined().ensureValueExistsInEnum(Gender);
-        ExtraGuard.check(this._housingType, 'housingType').ensureValueExistsInEnum(HousingType);
         ExtraGuard.check(this._location, 'location').againstNullOrUndefined();
+        ExtraGuard.check(this._housingType, 'housingType').ensureValueExistsInEnum(HousingType);
+        ExtraGuard.check(this._householdSize, 'householdSize').ensureNumberIsAboveZero();
     }
 
     get birthDate(): Date {
@@ -60,11 +68,19 @@ export class UserProfile {
         return this._gender;
     }
 
+    get location(): Location {
+        return this._location;
+    }
+
     get housingType(): HousingType {
         return this._housingType;
     }
 
-    get location(): Location {
-        return this._location;
+    get householdSize(): number {
+        return this._householdSize;
+    }
+
+    get ecoGoals(): string[] {
+        return this._ecoGoals;
     }
 }

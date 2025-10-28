@@ -20,13 +20,15 @@ Deno.test('SaveUser - Successfully saves a user', async () => {
         userProfile: {
             birthDate: new Date('2000-01-01T00:00:00Z'),
             gender: Gender.Male,
-            housingType: HousingType.House,
-            location: {
+                location: {
                 houseNumber: '11',
                 street: 'Main Street',
                 city: 'New York',
                 postalCode: '1000'
-            }
+            },
+            housingType: HousingType.House,
+            householdSize: 2,
+            ecoGoals: ['Recycle more', 'Cut food waste']
         }
     };
 
@@ -46,8 +48,10 @@ Deno.test('SaveUser - Successfully saves a user', async () => {
 
     const profile = savedUser.userProfile;
     assert(profile.gender === input.userProfile.gender);
-    assert(profile.housingType === input.userProfile.housingType);
     assert(profile.birthDate.getTime() === input.userProfile.birthDate.getTime());
+    assert(profile.housingType === input.userProfile.housingType);
+    assert(profile.householdSize === input.userProfile.householdSize);
+    assert(profile.ecoGoals === input.userProfile.ecoGoals);
 
     const location = profile.location;
     assert(location.houseNumber === input.userProfile.location.houseNumber);

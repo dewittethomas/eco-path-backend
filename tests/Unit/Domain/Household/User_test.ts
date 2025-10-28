@@ -9,8 +9,10 @@ function makeValidUserProfile(): UserProfile {
     return UserProfile.create(
         new Date(2000, 1, 1),
         Gender.Male,
+        makeValidLocation(),
         HousingType.House,
-        makeValidLocation()
+        2,
+        ["Recycle more", "Reduce food waste"]
     );
 }
 

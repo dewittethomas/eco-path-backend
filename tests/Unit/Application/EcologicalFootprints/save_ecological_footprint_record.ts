@@ -17,17 +17,15 @@ Deno.test('SaveEcologicalFootprintRecord - Successfully saves a record', async (
         id: recordId.toString(),
         userId: userId.toString(),
         fromDate: new Date('2024-01-01T00:00:00Z'),
-        toDate: new Date('2024-06-30T00:00:00Z'),
+        toDate: new Date('2024-02-01T00:00:00Z'),
         ecologicalFootprint: {
             totalGasUsage: 120,
             totalElectricityUsage: 400,
             totalWaste: {
-                [WasteType.GreenGlass]: 0,
-                [WasteType.WhiteGlass]: 0,
+                [WasteType.Glass]: 0,
                 [WasteType.Plastic]: 10,
                 [WasteType.Metal]: 2,
-                [WasteType.Cardboard]: 0,
-                [WasteType.Paper]: 5,
+                [WasteType.PaperAndCardboard]: 5,
                 [WasteType.GeneralWaste]: 0,
                 [WasteType.BioWaste]: 0
             }
@@ -54,6 +52,6 @@ Deno.test('SaveEcologicalFootprintRecord - Successfully saves a record', async (
 
     const totalWaste = footprint.totalWaste;
     assert(totalWaste.get(WasteType.Plastic) === input.ecologicalFootprint.totalWaste[WasteType.Plastic]);
-    assert(totalWaste.get(WasteType.Paper) === input.ecologicalFootprint.totalWaste[WasteType.Paper]);
+    assert(totalWaste.get(WasteType.PaperAndCardboard) === input.ecologicalFootprint.totalWaste[WasteType.PaperAndCardboard]);
     assert(totalWaste.get(WasteType.Metal) === input.ecologicalFootprint.totalWaste[WasteType.Metal]);
 });
