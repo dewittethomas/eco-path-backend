@@ -1,4 +1,5 @@
-export { User, UserId, Gender, HousingType } from 'EcoPath/Domain/Household/User.ts';
+export { User, UserId } from 'EcoPath/Domain/Household/User.ts';
+export { UserProfile, Gender, HousingType } from 'EcoPath/Domain/Household/UserProfile.ts';
 export { Location } from 'EcoPath/Domain/Household/Location.ts';
 export { SmartMeter, SmartMeterId, MeterType } from 'EcoPath/Domain/Meters/SmartMeter.ts';
 export { SensorReading, Unit } from 'EcoPath/Domain/Meters/SensorReading.ts';
@@ -6,5 +7,6 @@ export { WasteScan, WasteScanId } from 'EcoPath/Domain/Waste/WasteScan.ts';
 export { WasteType } from 'EcoPath/Domain/Waste/WasteType.ts';
 export { WasteCarbonFactors } from 'EcoPath/Domain/Waste/WasteCarbonFactors.ts';
 export { EcologicalFootprint } from 'EcoPath/Domain/EcologicalFootprints/EcologicalFootprint.ts';
+export { EcologicalFootprintRecord, EcologicalFootprintRecordId } from 'EcoPath/Domain/EcologicalFootprints/EcologicalFootprintRecord.ts';
 export { ClassificationResult, ClassificationResultId } from 'EcoPath/Domain/Waste/ClassificationResult.ts';
-export { }
+export { ExtraGuard } from 'EcoPath/Domain/Shared/ExtraGuard.ts';

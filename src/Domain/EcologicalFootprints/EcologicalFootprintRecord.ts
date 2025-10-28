@@ -1,5 +1,5 @@
 import { Entity, UUIDEntityId } from "@domaincrafters/domain";
-import { UserId, EcologicalFootprint } from "EcoPath/Domain/mod.ts";
+import { ExtraGuard, UserId, EcologicalFootprint } from "EcoPath/Domain/mod.ts";
 
 export class EcologicalFootprintRecordId extends UUIDEntityId {
     private constructor(id?: string) {
@@ -25,7 +25,7 @@ export class EcologicalFootprintRecord extends Entity {
         ecologicalFootprint: EcologicalFootprint
     ) {
         super(id);
-        this._userId = id;
+        this._userId = userId;
         this._fromDate = fromDate;
         this._toDate = toDate;
         this._ecologicalFootprint = ecologicalFootprint;
@@ -44,18 +44,29 @@ export class EcologicalFootprintRecord extends Entity {
     }
 
     public override validateState(): void {
-        this.ensureUserIdIsNotEmpty();
+        ExtraGuard.check(this._userId, 'userId').againstNullOrUndefined();
+        ExtraGuard.check(this._fromDate, 'fromDate').ensureDateIsInThePast();
+        ExtraGuard.check(this._toDate, 'toDate').ensureDateIsInThePast();
+        ExtraGuard.check(this._ecologicalFootprint, 'ecologicalFootprint').againstNullOrUndefined();
     }
 
-    private ensureUserIdIsNotEmpty() {
-        if (!this._userId) {
-            throw new Error('User id is required')
-        }
+    override get id(): EcologicalFootprintRecordId {
+      return this._id as EcologicalFootprintRecordId;
     }
 
-    private ensureToDateIsNotInTheFuture() {
-        if (this._toDate > new Date()) {
-            throw new Error('To ')
-        }
+    get userId(): UserId {
+        return this._userId;
+    }
+
+    get fromDate(): Date {
+        return this._fromDate;
+    }
+
+    get toDate(): Date {
+        return this._toDate;
+    }
+
+    get ecologicalFootprint(): EcologicalFootprint {
+        return this._ecologicalFootprint;
     }
 }

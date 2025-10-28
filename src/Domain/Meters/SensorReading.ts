@@ -1,5 +1,5 @@
 import { Guard } from '@domaincrafters/std';
-import { SmartMeter } from 'EcoPath/Domain/mod.ts';
+import { ExtraGuard, SmartMeter } from 'EcoPath/Domain/mod.ts';
 
 export enum Unit {
   KilowattHour = 'kWh',
@@ -37,31 +37,14 @@ export class SensorReading {
     }
 
     public validateState(): void {
-        this.ensureSmartMeterIsNotEmpty();
-        Guard.check(this._timestamp, 'Timestamp is required').againstNullOrUndefined();
-        Guard.check(this._value, 'Value is required').againstZero();
-        Guard.check(this._value, 'Value must be non-negative').againstNegative();
-        this.ensureUnitIsNotEmptyandExists();
-    }
-
-    private ensureSmartMeterIsNotEmpty() {
-        if (!this._smartMeter) {
-            throw new Error("Smart meter is required");
-        }
-    }
-
-    private ensureTimestampIsNotInFuture() {
-        
-    }
-
-    private ensureUnitIsNotEmptyandExists() {
-        if (!this._unit || !Object.values(Unit).includes(this._unit)) {
-            throw new Error(`Invalid unit: ${this._unit}`);
-        }
+        ExtraGuard.check(this._smartMeter, 'smartMeter').againstNullOrUndefined();
+        ExtraGuard.check(this._timestamp, 'timestamp').againstNullOrUndefined().ensureIsValidDate().ensureDateIsInThePast();
+        Guard.check(this._value, 'value').againstZero().againstNegative();
+        ExtraGuard.check(this._unit, 'unit').againstNullOrUndefined().ensureValueExistsInEnum(Unit);
     }
 
     equals(other: SensorReading): boolean {
-        return this.smartMeter === other.smartMeter && this.timestamp === other.timestamp &&
+        return this.smartMeter.id === other.smartMeter.id && this.timestamp.getTime() === other.timestamp.getTime() &&
             this.value === other.value && this.unit === other.unit; 
     }
 

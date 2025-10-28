@@ -1,6 +1,6 @@
 import { Entity, UUIDEntityId } from '@domaincrafters/domain';
 import { Guard } from '@domaincrafters/std';
-import { UserId } from 'EcoPath/Domain/mod.ts';
+import { ExtraGuard, UserId } from 'EcoPath/Domain/mod.ts';
 
 export class WasteScanId extends UUIDEntityId {
     private constructor(id?: string) {
@@ -41,25 +41,9 @@ export class WasteScan extends Entity {
     }
 
     public override validateState(): void {
-        Guard.check(this._userId, 'User ID is required').againstNullOrUndefined();
-        Guard.check(this._timestamp, 'Timestamp is required').againstNullOrUndefined();
-        Guard.check(this._image, 'Image is required').againstWhitespace();
-
-        const now = new Date();
-        if (this._timestamp.getTime() > now.getTime()) {
-            throw new Error('Timestamp cannot be in the future');
-        }
-
-        const base64Regex = /^[A-Za-z0-9+/=]+$/;
-        if (!base64Regex.test(this._image)) {
-            throw new Error('Image must be valid Base64');
-        }
-    }
-
-    private ensureTimestampIsInThePast() {
-        if(this._timestamp > new Date()) {
-            throw new Error('Timestamp should be in the past');
-        }
+        Guard.check(this._userId, 'userId').againstNullOrUndefined();
+        ExtraGuard.check(this._timestamp, 'timestamp').againstNullOrUndefined().ensureIsValidDate().ensureDateIsInThePast();
+        ExtraGuard.check(this._image, 'image').againstNullOrUndefined().ensureStringIsInBase64Format();
     }
 
     override get id(): WasteScanId {

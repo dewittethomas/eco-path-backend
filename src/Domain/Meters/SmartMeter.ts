@@ -1,6 +1,6 @@
 import { Entity, UUIDEntityId } from '@domaincrafters/domain';
 import { Guard } from '@domaincrafters/std';
-import { Location } from 'EcoPath/Domain/mod.ts';
+import { ExtraGuard, Location } from 'EcoPath/Domain/mod.ts';
 
 export class SmartMeterId extends UUIDEntityId {
     private constructor(id?: string) {
@@ -43,20 +43,8 @@ export class SmartMeter extends Entity {
     }
 
     public override validateState(): void {
-        this.ensureMeterTypeIsNotEmptyandExists();
-        this.ensureLocationIsNotEmpty();
-    }
-
-    private ensureMeterTypeIsNotEmptyandExists() {
-        if (!this._meterType || !Object.values(MeterType).includes(this._meterType)) {
-            throw new Error(`Invalid meter type: ${this._meterType}`);
-        }
-    }
-
-    private ensureLocationIsNotEmpty() {
-        if (!this._location) {
-            throw new Error("Location is required");
-        }
+        ExtraGuard.check(this._meterType, 'meterType').againstNullOrUndefined().ensureValueExistsInEnum(MeterType);
+        ExtraGuard.check(this._location, 'location').againstNullOrUndefined();
     }
 
     override get id(): SmartMeterId {

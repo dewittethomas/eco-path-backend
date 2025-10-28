@@ -6,7 +6,6 @@ export interface SaveClassificationResultInput {
     id: string;
     scanId: string;
     wasteType: string;
-    confidence: number;
     timestamp: Date;
 }
 
@@ -28,8 +27,7 @@ export class SaveClassificationResult implements UseCase<SaveClassificationResul
                 ClassificationResultId.create(input.id),
                 WasteScanId.create(input.scanId),
                 input.wasteType as WasteType,
-                input.confidence,
-                input.timestamp,
+                input.timestamp
             );
 
             return this._classificationResultRepository.save(result);

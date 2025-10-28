@@ -1,5 +1,6 @@
 import { Guard } from "@domaincrafters/std";
-import { WasteType } from "EcoPath/Domain/mod.ts";
+import { ExtraGuard, WasteType } from "EcoPath/Domain/mod.ts";
+import { WasteCarbonFactors } from "../Waste/WasteCarbonFactors.ts";
 
 export class EcologicalFootprint {
     private readonly _totalGasUsage: number; // in m³
@@ -19,29 +20,41 @@ export class EcologicalFootprint {
     public static create(
         totalGasUsage: number,
         totalElectricityUsage: number,
-        totalWasteWeight: number
+        totalWaste: Map<WasteType, number>
     ): EcologicalFootprint {
-        //const ecologicalFootprint = new EcologicalFootprint(totalGasUsage, totalElectricityUsage, totalWasteWeight);
-        //ecologicalFootprint.validateState();
-        return null as unknown as EcologicalFootprint;
+        const ecologicalFootprint = new EcologicalFootprint(totalGasUsage, totalElectricityUsage, totalWaste);
+        ecologicalFootprint.validateState();
+        return ecologicalFootprint;
     }
 
     public validateState() {
-        Guard.check(this._totalGasUsage, 'Gas usage should be a positive number').againstEmpty().againstNegative();
-        Guard.check(this._totalElectricityUsage, 'Electricity usage should be a positive number').againstEmpty().againstNegative();
+        Guard.check(this._totalGasUsage, 'totalGasUsage').againstNullOrUndefined().againstNegative();
+        Guard.check(this._totalElectricityUsage, 'totalElectricityUsage').againstNullOrUndefined().againstNegative();
         this.ensureWasteIsPositive();
     }
 
     public calculateCarbonEquivalent(): number {
         const gasFactor = 2.2;
         const electricityFactor = 0.55;
+        let wasteEquivalent = 0;
         
-        return 0;
+        for (const [type, weight] of this._totalWaste.entries()) {
+            const factor = WasteCarbonFactors[type];
+            if (factor !== undefined) {
+                wasteEquivalent += weight * factor;
+            }
+        }
+
+        const totalEquivalent = (this._totalGasUsage * gasFactor)
+            + (this._totalElectricityUsage * electricityFactor)
+            + wasteEquivalent;
+        
+        return totalEquivalent;
     }
 
     private ensureWasteIsPositive() {
-        for (const [type, weight] of this._totalWaste.entries()) {
-            Guard.check(weight, `Waste weight must be a positive number for ${type}`).againstEmpty().againstNegative();
+        for (const [_, weight] of this._totalWaste.entries()) {
+            Guard.check(weight, `weight`).againstNullOrUndefined().againstNegative();
         }
     }
 

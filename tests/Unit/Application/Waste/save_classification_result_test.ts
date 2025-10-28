@@ -17,14 +17,12 @@ Deno.test("SaveClassificationResult - Successfully saves a classification result
     const id = ClassificationResultId.create();
     const scanId = WasteScanId.create();
     const wasteType = WasteType.Plastic;
-    const confidence = 0.92;
     const timestamp = new Date();
 
     const input: SaveClassificationResultInput = {
         id: id.toString(),
         scanId: scanId.toString(),
         wasteType,
-        confidence,
         timestamp,
     };
 
@@ -40,6 +38,5 @@ Deno.test("SaveClassificationResult - Successfully saves a classification result
     assert(savedResult.id.equals(id));
     assert(savedResult.scanId.equals(scanId));
     assert(savedResult.wasteType === wasteType);
-    assert(savedResult.confidence === confidence);
     assert(savedResult.timestamp.getTime() === timestamp.getTime());
 });

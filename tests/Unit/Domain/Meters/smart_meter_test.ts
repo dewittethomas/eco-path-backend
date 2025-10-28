@@ -1,9 +1,8 @@
-import { assertEquals } from "@std/assert/equals";
-import { assertThrows } from "@std/assert";
+import { assertEquals, assertThrows } from "@std/assert";
 
 import { SmartMeter, SmartMeterId, MeterType, Location } from "EcoPath/Domain/mod.ts";
 
-Deno.test("Create SmartMeter - Success", () => {
+Deno.test("SmartMeter - Create succesfully", () => {
     const id = SmartMeterId.create();
 
     const location = Location.create("11", "Main Street", "New York", "1000");

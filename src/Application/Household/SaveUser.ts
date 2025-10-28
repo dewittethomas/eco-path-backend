@@ -1,19 +1,22 @@
 import type { UseCase } from'@domaincrafters/application';
 import type { UserRepository, UnitOfWork } from "EcoPath/Application/Contracts/mod.ts";
-import { User, UserId, Gender, HousingType, Location } from "EcoPath/Domain/mod.ts";
+import { User, UserId, Gender, HousingType, Location, UserProfile } from "EcoPath/Domain/mod.ts";
 
 export interface SaveUserInput {
     id: string;
     name: string;
     email: string;
-    birthDate: string;
-    gender: string;
-    housingType: string;
-    location: {
-        houseNumber: string;
-        street: string;
-        city: string;
-        postalCode: string;
+    avatarImage: string;
+    userProfile: {
+        birthDate: Date;
+        gender: Gender;
+        housingType: HousingType
+        location: {
+            houseNumber: string,
+            street: string,
+            city: string,
+            postalCode: string
+        }
     }
 }
 
@@ -31,21 +34,26 @@ export class SaveUser implements UseCase<SaveUserInput> {
 
     execute(input: SaveUserInput): Promise<void> {
         return this._unitOfWork.do<void>(() => {
-            const location = Location.create(
-                input.location.houseNumber,
-                input.location.street,
-                input.location.city,
-                input.location.postalCode,
-            );
+            const location: Location = Location.create(
+                input.userProfile.location.houseNumber,
+                input.userProfile.location.street,
+                input.userProfile.location.city,
+                input.userProfile.location.postalCode
+            )
+
+            const userProfile: UserProfile = UserProfile.create(
+                input.userProfile.birthDate,
+                input.userProfile.gender,
+                input.userProfile.housingType,
+                location
+            )
 
             const user = User.create(
                 UserId.create(input.id),
                 input.name,
                 input.email,
-                new Date(input.birthDate),
-                input.gender as Gender,
-                input.housingType as HousingType,
-                location
+                input.avatarImage,
+                userProfile
             );
 
             return this._userRepository.save(user);

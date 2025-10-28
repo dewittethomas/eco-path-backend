@@ -1,61 +1,49 @@
-import { assertEquals } from "@std/assert/equals";
-import { assertThrows } from "@std/assert";
+import { assertEquals, assertThrows } from '@std/assert';
+import { WasteScan, WasteScanId, UserId } from 'EcoPath/Domain/mod.ts';
 
-import { WasteScan, WasteScanId, UserId } from "EcoPath/Domain/mod.ts";
+function makeValidWasteScanData() {
+    return {
+        wasteScanId: WasteScanId.create(),
+        userId: UserId.create(),
+        timestamp: new Date(2000, 1, 1),
+        image: btoa('hello world')
+    };
+}
 
-Deno.test("Create WasteScan - Success", () => {
-  const userId = UserId.create();
-  const scanId = WasteScanId.create();
-  const timestamp = new Date();
-  const image = "aGVsbG93b3JsZA==";
+Deno.test('WasteScan - Create Successfully', () => {
+    const data = makeValidWasteScanData();
+    const scan = WasteScan.create(data.wasteScanId, data.userId, data.timestamp, data.image);
 
-  const scan = WasteScan.create(scanId, userId, timestamp, image);
-
-  assertEquals(scan.id, scanId);
-  assertEquals(scan.userId, userId);
-  assertEquals(scan.timestamp, timestamp);
-  assertEquals(scan.image, image);
+    assertEquals(scan.id.equals(data.wasteScanId), true);
+    assertEquals(scan.userId.equals(data.userId), true);
+    assertEquals(scan.timestamp.getTime(), data.timestamp.getTime());
+    assertEquals(scan.image, data.image);
 });
 
-Deno.test("Create WasteScan - Fail (Missing Fields)", async (t) => {
-  const userId = UserId.create();
-  const scanId = WasteScanId.create();
-  const timestamp = new Date();
-  const image = "aGVsbG93b3JsZA==";
+Deno.test('WasteScan - Fails on Missing or Invalid Fields', async (t) => {
+    const valid = makeValidWasteScanData();
 
-  const cases = [
-    { userId: null as unknown as UserId, timestamp, image, msg: "missing userId" },
-    { userId, timestamp: null as unknown as Date, image, msg: "missing timestamp" },
-    { userId, timestamp, image: "   ", msg: "empty image" },
-  ];
+    const invalidCases = [
+        { ...valid, userId: null as unknown as UserId, msg: 'null userId' },
+        { ...valid, timestamp: null as unknown as Date, msg: 'null timestamp' },
+        { ...valid, image: '   ', msg: 'whitespace image' },
+        { ...valid, image: 'invalid@@base64', msg: 'invalid base64 format' }
+    ];
 
-  for (const c of cases) {
-    await t.step(`Fails with ${c.msg}`, () => {
-      assertThrows(() => {
-        WasteScan.create(scanId, c.userId, c.timestamp, c.image);
-      });
+    for (const c of invalidCases) {
+        await t.step(`Fails with ${c.msg}`, () => {
+            assertThrows(() => {
+                WasteScan.create(WasteScanId.create(), c.userId, c.timestamp, c.image);
+            });
+        });
+    }
+});
+
+Deno.test('WasteScan - Fails on Future Timestamp', () => {
+    const futureTimestamp = new Date(Date.now() + 60_000);
+    const data = makeValidWasteScanData();
+
+    assertThrows(() => {
+        WasteScan.create(WasteScanId.create(), data.userId, futureTimestamp, data.image);
     });
-  }
-});
-
-Deno.test("Create WasteScan - Fail (Future Timestamp)", () => {
-  const userId = UserId.create();
-  const scanId = WasteScanId.create();
-  const timestamp = new Date(Date.now() + 60_000);
-  const image = "aGVsbG93b3JsZA==";
-
-  assertThrows(() => {
-    WasteScan.create(scanId, userId, timestamp, image);
-  });
-});
-
-Deno.test("Create WasteScan - Fail (Invalid Base64)", () => {
-  const userId = UserId.create();
-  const scanId = WasteScanId.create();
-  const timestamp = new Date();
-  const invalidBase64 = "not@@@base64$$";
-
-  assertThrows(() => {
-    WasteScan.create(scanId, userId, timestamp, invalidBase64);
-  });
 });

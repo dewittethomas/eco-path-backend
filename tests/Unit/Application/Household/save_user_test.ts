@@ -1,50 +1,57 @@
-import { SaveUser } from "EcoPath/Application/mod.ts";
-import { MockUserRepository, MockUnitOfWork } from "EcoPath/tests/Unit/Shared/mod.ts";
-import { UserId, Gender, HousingType } from "EcoPath/Domain/mod.ts";
-import { SaveUserInput } from "EcoPath/Application/Contracts/mod.ts";
-import { assert } from "@std/assert/assert";
+import { SaveUser } from 'EcoPath/Application/mod.ts';
+import { MockUserRepository, MockUnitOfWork } from 'EcoPath/tests/Unit/Shared/mod.ts';
+import { UserId, Gender, HousingType } from 'EcoPath/Domain/mod.ts';
+import { assert } from '@std/assert';
 
-Deno.test("SaveUser - Succesfully saves a user", async () => {
+Deno.test('SaveUser - Successfully saves a user', async () => {
     // Arrange
     const mockUserRepository = new MockUserRepository();
     const mockUnitOfWork = new MockUnitOfWork();
 
-    const saveUser = new SaveUser(
-        mockUserRepository,
-        mockUnitOfWork,
-    );
+    const saveUser = new SaveUser(mockUserRepository, mockUnitOfWork);
 
     const id = UserId.create();
 
-    const input: SaveUserInput = {
+    const input = {
         id: id.toString(),
-        name: "John Doe",
-        email: "john.doe@example.com",
-        birthDate: "2000-01-01T00:00:00Z",
-        gender: "male",
-        housingType: "house",
-        location: {
-            houseNumber: "11",
-            street: "Main Street",
-            city: "New York",
-            postalCode: "1000"
+        name: 'John Doe',
+        email: 'john.doe@example.com',
+        avatarImage: btoa('hello world'),
+        userProfile: {
+            birthDate: new Date('2000-01-01T00:00:00Z'),
+            gender: Gender.Male,
+            housingType: HousingType.House,
+            location: {
+                houseNumber: '11',
+                street: 'Main Street',
+                city: 'New York',
+                postalCode: '1000'
+            }
         }
-    }
+    };
 
     // Act
     await saveUser.execute(input);
 
-    // Assert
     mockUnitOfWork.assertDoIsCalled(1);
     mockUserRepository.assertSaveIsCalled(1);
 
     const savedUser = mockUserRepository.getUserFromCall(1);
 
+    // Assert
     assert(savedUser.id.equals(id));
     assert(savedUser.name === input.name);
     assert(savedUser.email === input.email);
-    assert(savedUser.location.houseNumber === input.location.houseNumber);
-    assert(savedUser.location.street === input.location.street);
-    assert(savedUser.location.city === input.location.city);
-    assert(savedUser.location.postalCode === input.location.postalCode);
+    assert(savedUser.avatarImage === input.avatarImage);
+
+    const profile = savedUser.userProfile;
+    assert(profile.gender === input.userProfile.gender);
+    assert(profile.housingType === input.userProfile.housingType);
+    assert(profile.birthDate.getTime() === input.userProfile.birthDate.getTime());
+
+    const location = profile.location;
+    assert(location.houseNumber === input.userProfile.location.houseNumber);
+    assert(location.street === input.userProfile.location.street);
+    assert(location.city === input.userProfile.location.city);
+    assert(location.postalCode === input.userProfile.location.postalCode);
 });
