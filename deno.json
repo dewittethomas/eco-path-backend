@@ -11,6 +11,7 @@
   "imports": {
     "@db/postgres": "jsr:@db/postgres@^0.19.5",
     "@domaincrafters/application": "jsr:@domaincrafters/application@^1.0.2",
+    "@domaincrafters/di": "jsr:@domaincrafters/di@^1.1.0",
     "@domaincrafters/domain": "jsr:@domaincrafters/domain@^1.1.1",
     "@domaincrafters/std": "jsr:@domaincrafters/std@^1.1.0",
     "@oak/oak": "jsr:@oak/oak@^17.1.6",
