@@ -1,7 +1,7 @@
 import { SaveEcologicalFootprintRecord } from 'EcoPath/Application/mod.ts';
 import { MockEcologicalFootprintRecordRepository, MockUnitOfWork } from 'EcoPath/tests/Unit/Shared/mod.ts';
 import { WasteType, UserId, EcologicalFootprintRecordId } from 'EcoPath/Domain/mod.ts';
-import { assert, assertThrows } from '@std/assert';
+import { assert } from '@std/assert';
 
 Deno.test('SaveEcologicalFootprintRecord - Successfully saves a record', async () => {
     // Arrange
