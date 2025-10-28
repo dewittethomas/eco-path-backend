@@ -13,27 +13,23 @@ function makeValidSmartMeter() {
     );
 }
 
-function makeValidSensorReading() {
-    return SensorReading.create(
-        makeValidSmartMeter(),
-        new Date(2000, 1, 1),
-        10,
-        Unit.CubicMeter
-    );
+function makeValidSensorReadingData() {
+    return {
+        smartMeter: makeValidSmartMeter(),
+        timestamp: new Date(2000, 1, 1),
+        value: 10,
+        unit: Unit.CubicMeter
+    }
 }
 
 Deno.test('SensorReading - Create successfully', () => {
-    const smartMeter = makeValidSmartMeter();
-    const timestamp = new Date(2000, 1, 1);
-    const value = 42.5;
-    const unit = Unit.KilowattHour;
+    const data = makeValidSensorReadingData();
+    const reading = SensorReading.create(data.smartMeter, data.timestamp, data.value, data.unit);
 
-    const reading = SensorReading.create(smartMeter, timestamp, value, unit);
-
-    assertEquals(reading.smartMeter.id.equals(smartMeter.id), true);
-    assertEquals(reading.timestamp.getTime(), timestamp.getTime());
-    assertEquals(reading.value, value);
-    assertEquals(reading.unit, unit);
+    assertEquals(reading.smartMeter.id.equals(data.smartMeter.id), true);
+    assertEquals(reading.timestamp.getTime(), data.timestamp.getTime());
+    assertEquals(reading.value, data.value);
+    assertEquals(reading.unit, data.unit);
 });
 
 Deno.test('SensorReading - Fails with invalid or missing fields', async (t) => {

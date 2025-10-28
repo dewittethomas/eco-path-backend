@@ -26,7 +26,6 @@ function makeValidUserData() {
 
 Deno.test('User - Create Successfully', () => {
     const data = makeValidUserData();
-
     const user = User.create(
         data.id,
         data.name,

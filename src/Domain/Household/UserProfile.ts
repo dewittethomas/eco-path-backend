@@ -28,10 +28,10 @@ export class UserProfile {
         housingType: HousingType,
         location: Location
     ) {
-        this._birthDate = birthDate,
-        this._gender = gender,
-        this._housingType = housingType,
-        this._location = location
+        this._birthDate = birthDate;
+        this._gender = gender;
+        this._housingType = housingType;
+        this._location = location;
     }
 
     public static create(

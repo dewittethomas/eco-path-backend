@@ -1,5 +1,4 @@
 import { assertEquals, assertThrows } from "@std/assert";
-
 import { SmartMeter, SmartMeterId, MeterType, Location } from "EcoPath/Domain/mod.ts";
 
 Deno.test("SmartMeter - Create succesfully", () => {

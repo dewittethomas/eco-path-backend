@@ -1,6 +1,5 @@
 import { assertEquals, assertThrows } from '@std/assert';
-import { EcologicalFootprint } from 'EcoPath/Domain/mod.ts';
-import { WasteType } from 'EcoPath/Domain/mod.ts';
+import { EcologicalFootprint, WasteType } from 'EcoPath/Domain/mod.ts';
 import { WasteCarbonFactors } from 'EcoPath/Domain/Waste/WasteCarbonFactors.ts';
 
 function makeValidWasteData(): Map<WasteType, number> {

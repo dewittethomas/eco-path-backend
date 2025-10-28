@@ -1,5 +1,5 @@
 import { Guard } from "@domaincrafters/std";
-import { ExtraGuard, WasteType } from "EcoPath/Domain/mod.ts";
+import { WasteType } from "EcoPath/Domain/mod.ts";
 import { WasteCarbonFactors } from "../Waste/WasteCarbonFactors.ts";
 
 export class EcologicalFootprint {
