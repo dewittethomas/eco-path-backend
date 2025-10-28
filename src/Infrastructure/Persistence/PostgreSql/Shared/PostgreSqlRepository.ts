@@ -39,7 +39,7 @@ export abstract class PostgreSqlRepository<E extends Entity> implements Reposito
 
         const placeholders = columns.map((_, index) => `$${index + 1}`).join(',');
         const updateAssignments = columns
-            .map((col, index) => `${col} = EXCLUDED.${col}`)
+            .map((col, _) => `${col} = EXCLUDED.${col}`)
             .join(', ');
 
         const query = `
