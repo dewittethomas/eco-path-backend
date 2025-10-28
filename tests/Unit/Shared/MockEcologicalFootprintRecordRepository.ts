@@ -4,8 +4,8 @@ import { EcologicalFootprintRecord, EcologicalFootprintRecordId } from 'EcoPath/
 import { assertEquals } from '@std/assert/equals';
 
 export class MockEcologicalFootprintRecordRepository implements EcologicalFootprintRecordRepository {
-    private _visitedSave = 0;
-    private readonly _records: EcologicalFootprintRecord[] = [];
+    private _visitedSave: number = 0;
+    private readonly _records: EcologicalFootprintRecord[];
 
     constructor(records: EcologicalFootprintRecord[] = []) {
         this._records = records;
@@ -18,7 +18,7 @@ export class MockEcologicalFootprintRecordRepository implements EcologicalFootpr
     save(entity: EcologicalFootprintRecord): Promise<void> {
         this._visitedSave++;
         this._records.push(entity);
-
+        
         return Promise.resolve();
     }
 
@@ -31,9 +31,10 @@ export class MockEcologicalFootprintRecordRepository implements EcologicalFootpr
     }
 
     getRecordFromCall(call: number): EcologicalFootprintRecord {
-        if (!this._records[call - 1]) {
-            throw new Error(`No record found for call ${call}`);
+        const record = this._records[call - 1];
+        if (!record) {
+            throw new Error(`No record with call ${call} found`);
         }
-        return this._records[call - 1]!;
+        return record;
     }
 }

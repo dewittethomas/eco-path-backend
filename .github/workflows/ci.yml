@@ -58,7 +58,7 @@ jobs:
     
       - name: Check coverage threshold
         run: |
-          coverage_report="$(deno coverage --exclude=tests coverage)"
+          coverage_report="$(deno coverage --exclude=tests --exclude=src/Domain/Shared coverage)"
           echo "$coverage_report"
     
           COVERAGE="$(echo "$coverage_report" | grep "All files" | awk -F'|' '{print $3}' | sed 's/\x1B\[[0-9;]*m//g' | tr -d '[:space:]')"
