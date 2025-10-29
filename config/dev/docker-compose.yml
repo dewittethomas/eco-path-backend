@@ -1,16 +1,44 @@
 services:
   db:
     image: postgres
+    container_name: eco_db
     restart: always
-    # set shared memory limit when using docker compose
     shm_size: 128mb
     ports:
       - 5432:5432
     environment:
       POSTGRES_PASSWORD: mysecretpassword
+    volumes:
+      - postgres_data:/var/lib/postgresql
 
   adminer:
     image: adminer
     restart: always
     ports:
       - 8080:8080
+
+  api:
+    build:
+      context: ../..              # ✅ project root as build context
+      dockerfile: ./config/dev/Dockerfile  # ✅ use Dockerfile in config/dev
+    container_name: eco_api
+    depends_on:
+      - db
+    environment:
+      SEED_DB: "false"
+      RUN_MIGRATIONS: "true"
+    ports:
+      - "8000:8000"
+    command: >
+      sh -c '
+      if [ "${RUN_MIGRATIONS}" = "true" ]; then
+        echo "⚙ Running migrations...";
+        deno task migrate;
+      fi;
+      echo "🚀 Starting API...";
+      deno task run
+      '
+
+
+volumes:
+  postgres_data:
