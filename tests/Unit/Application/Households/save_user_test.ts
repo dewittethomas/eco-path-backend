@@ -20,7 +20,7 @@ Deno.test('SaveUser - Successfully saves a user', async () => {
         userProfile: {
             birthDate: new Date('2000-01-01T00:00:00Z'),
             gender: Gender.Male,
-                location: {
+            location: {
                 houseNumber: '11',
                 street: 'Main Street',
                 city: 'New York',
@@ -41,7 +41,6 @@ Deno.test('SaveUser - Successfully saves a user', async () => {
     const savedUser = mockUserRepository.getUserFromCall(1);
 
     // Assert
-    assert(savedUser.id.equals(id));
     assert(savedUser.name === input.name);
     assert(savedUser.email === input.email);
     assert(savedUser.avatarImage === input.avatarImage);

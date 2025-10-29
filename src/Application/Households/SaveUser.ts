@@ -3,7 +3,6 @@ import type { UserRepository, UnitOfWork } from "EcoPath/Application/Contracts/m
 import { User, UserId, Gender, HousingType, Location, UserProfile } from "EcoPath/Domain/mod.ts";
 
 export interface SaveUserInput {
-    id: string;
     name: string;
     email: string;
     avatarImage: string;
@@ -22,7 +21,7 @@ export interface SaveUserInput {
     }
 }
 
-export class SaveUser implements UseCase<SaveUserInput> {
+export class SaveUser implements UseCase<SaveUserInput, string> {
     private readonly _userRepository: UserRepository;
     private readonly _unitOfWork: UnitOfWork;
 
@@ -34,8 +33,8 @@ export class SaveUser implements UseCase<SaveUserInput> {
         this._unitOfWork = unitOfWork;
     }
 
-    execute(input: SaveUserInput): Promise<void> {
-        return this._unitOfWork.do<void>(() => {
+    async execute(input: SaveUserInput): Promise<string> {
+        return await this._unitOfWork.do<string>(async () => {
             const location: Location = Location.create(
                 input.userProfile.location.houseNumber,
                 input.userProfile.location.street,
@@ -52,15 +51,19 @@ export class SaveUser implements UseCase<SaveUserInput> {
                 input.userProfile.ecoGoals
             )
 
+            const userId = UserId.create();
+
             const user = User.create(
-                UserId.create(input.id),
+                userId,
                 input.name,
                 input.email,
                 input.avatarImage,
                 userProfile
             );
 
-            return this._userRepository.save(user);
+            await this._userRepository.save(user);
+
+            return user.id.toString();
         })
     }
 }

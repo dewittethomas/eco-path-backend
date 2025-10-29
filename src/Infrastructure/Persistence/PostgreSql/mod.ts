@@ -5,3 +5,7 @@ export { PostgreSqlUserRepository } from 'EcoPath/Infrastructure/Persistence/Pos
 
 // Mappers
 export { UserRecordMapper } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Mappers/UserRecordMapper.ts';
+
+// Seeders
+export { UserSeeder } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Seeders/UserSeeder.ts';
+export { SeederRunner } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Seeders/SeederRunner.ts';

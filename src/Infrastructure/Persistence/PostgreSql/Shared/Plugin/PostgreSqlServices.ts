@@ -27,7 +27,6 @@ export class PostgreSqlServices {
         config: Config,
         services: ServiceCollection
     ): typeof PostgreSqlServices {
-
         services.addScoped(
             'postgreSqlClient',
             this.buildPostgreSqlClientFactory(config),

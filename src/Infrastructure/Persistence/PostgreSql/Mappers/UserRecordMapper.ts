@@ -1,51 +1,68 @@
 import { User, UserId, UserProfile, Gender, HousingType, Location } from 'EcoPath/Domain/mod.ts';
 import type { PgRecord, RecordMapper } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Shared/RecordMapper.ts';
 
+const arrayToRecord = (array: string[]): string => array.map(key => `"${key}"`).join(',');
+function reconstituteArray(value: unknown): string[] {
+    if (Array.isArray(value)) {
+        return [...value];
+    }
+
+    if (typeof value === 'string') {
+        return value
+            .replaceAll(/[{}]/g, '')
+            .split(',')
+            .map(item => item.trim())
+            .filter(item => item.length > 0); 
+    }
+
+    return [];
+}
+
 export class UserRecordMapper implements RecordMapper<User> {
     toRecord(entity: User): PgRecord {
         return {
             id: entity.id.toString(),
             name: entity.name,
             email: entity.email,
-            avatarImage: entity.avatarImage,
+            avatar_image: entity.avatarImage,
 
-            birthDate: entity.userProfile.birthDate.toISOString(),
+            birth_date: entity.userProfile.birthDate.toISOString(),
             gender: entity.userProfile.gender,
-            housingType: entity.userProfile.housingType,
-            householdSize: entity.userProfile.householdSize,
-            ecoGoals: JSON.stringify(entity.userProfile.ecoGoals),
+            housing_type: entity.userProfile.housingType,
+            household_size: entity.userProfile.householdSize,
+            eco_goals: `{${arrayToRecord(entity.userProfile.ecoGoals)}}`,
 
-            houseNumber: entity.userProfile.location.houseNumber,
+            house_number: entity.userProfile.location.houseNumber,
             street: entity.userProfile.location.street,
             city: entity.userProfile.location.city,
-            postalCode: entity.userProfile.location.postalCode
+            postal_code: entity.userProfile.location.postalCode
         };
     }
 
     reconstitute(record: PgRecord): User {
         const location = Location.create(
-            record.houseNumber as string,
+            record.house_number as string,
             record.street as string,
             record.city as string,
-            record.postalCode as string
+            record.postal_code as string
         );
+
+        const ecoGoals = reconstituteArray(record.eco_goals);
 
         const profile = UserProfile.create(
             new Date(record.birthDate as string),
             record.gender as Gender,
             location,
-            record.housingType as HousingType,
-            Number(record.householdSize),
-            typeof record.ecoGoals === 'string'
-                ? JSON.parse(record.ecoGoals)
-                : (record.ecoGoals as string[])
+            record.housing_type as HousingType,
+            Number(record.household_size),
+            ecoGoals
         );
 
         const user = User.create(
             UserId.create(record.id as string),
             record.name as string,
             record.email as string,
-            record.avatarImage as string,
+            record.avatar_image as string,
             profile
         );
 

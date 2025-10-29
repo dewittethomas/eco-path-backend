@@ -21,7 +21,6 @@ export class PostgreSqlClient {
 
     constructor(client: Client) {
         this._client = client;
-        console.log('PostgreSQL connection established');
     }
 
     async connect(): Promise<void> {

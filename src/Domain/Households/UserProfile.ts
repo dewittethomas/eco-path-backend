@@ -1,4 +1,5 @@
 import { ExtraGuard, Location } from "EcoPath/Domain/mod.ts";
+import { Guard } from "@domaincrafters/std";
 
 export enum Gender {
     Female = 'female',
@@ -58,6 +59,7 @@ export class UserProfile {
         ExtraGuard.check(this._location, 'location').againstNullOrUndefined();
         ExtraGuard.check(this._housingType, 'housingType').ensureValueExistsInEnum(HousingType);
         ExtraGuard.check(this._householdSize, 'householdSize').ensureNumberIsAboveZero();
+        Guard.check(this._ecoGoals, 'ecoGoals').againstEmpty();
     }
 
     get birthDate(): Date {
