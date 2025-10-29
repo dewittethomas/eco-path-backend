@@ -25,6 +25,10 @@ export class MockSmartMeterRepository implements SmartMeterRepository {
     remove(_entity: SmartMeter): Promise<void> {
         throw new Error('Method not implemented.');
     }
+
+    findAll(): Promise<SmartMeter[]> {
+        throw new Error('Method not implemented.');
+    }
     
     assertSaveIsCalled(times: number): void {
         assertEquals(this._visitedSave, times);
