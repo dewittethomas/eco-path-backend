@@ -3,7 +3,6 @@ import type { SmartMeterRepository, UnitOfWork } from "EcoPath/Application/Contr
 import { SmartMeter, SmartMeterId, type MeterType, Location } from "EcoPath/Domain/mod.ts";
 
 export interface SaveSmartMeterInput {
-    id: string;
     meterType: MeterType;
     location: {
         houseNumber: string;
@@ -13,7 +12,7 @@ export interface SaveSmartMeterInput {
     }
 }
 
-export class SaveSmartMeter implements UseCase<SaveSmartMeterInput> {
+export class SaveSmartMeter implements UseCase<SaveSmartMeterInput, string> {
     private readonly _smartMeterRepository: SmartMeterRepository;
     private readonly _unitOfWork: UnitOfWork;
 
@@ -25,8 +24,8 @@ export class SaveSmartMeter implements UseCase<SaveSmartMeterInput> {
         this._unitOfWork = unitOfWork;
     }
 
-    execute(input: SaveSmartMeterInput): Promise<void> {
-        return this._unitOfWork.do<void>(() => {
+    async execute(input: SaveSmartMeterInput): Promise<string> {
+        return await this._unitOfWork.do<string>(async () => {
             const location = Location.create(
                 input.location.houseNumber,
                 input.location.street,
@@ -34,13 +33,17 @@ export class SaveSmartMeter implements UseCase<SaveSmartMeterInput> {
                 input.location.postalCode,
             );
 
+            const smartMeterId = SmartMeterId.create();
+
             const smartMeter = SmartMeter.create(
-                SmartMeterId.create(input.id),
+                smartMeterId,
                 input.meterType,
                 location
             );
 
-            return this._smartMeterRepository.save(smartMeter);
+            await this._smartMeterRepository.save(smartMeter);
+
+            return smartMeter.id.toString();
         });
     }
 }

@@ -1,13 +1,13 @@
 import { assertEquals, assertThrows } from '@std/assert';
 import {
-    EcologicalFootprintRecord,
-    EcologicalFootprintRecordId,
-    EcologicalFootprint,
+    CarbonFootprintRecord,
+    CarbonFootprintRecordId,
+    CarbonFootprint,
     UserId,
     WasteType
 } from 'EcoPath/Domain/mod.ts';
 
-function makeValidEcologicalFootprint(): EcologicalFootprint {
+function makeValidCarbonFootprint(): CarbonFootprint {
     const totalWaste = new Map<WasteType, number>([
         [WasteType.Glass, 0],
         [WasteType.Plastic, 10],
@@ -17,28 +17,28 @@ function makeValidEcologicalFootprint(): EcologicalFootprint {
         [WasteType.BioWaste, 0],
     ]);
 
-    return EcologicalFootprint.create(50, 100, totalWaste);
+    return CarbonFootprint.create(50, 100, totalWaste);
 }
 
-function makeValidEcologicalFootprintRecord() {
+function makeValidCarbonFootprintRecord() {
     return {
-        id: EcologicalFootprintRecordId.create(),
+        id: CarbonFootprintRecordId.create(),
         userId: UserId.create(),
         fromDate: new Date(2023, 0, 1),
         toDate: new Date(2023, 1, 1),
-        ecologicalFootprint: makeValidEcologicalFootprint()
+        CarbonFootprint: makeValidCarbonFootprint()
     };
 }
 
-Deno.test('EcologicalFootprintRecord - Creates successfully', () => {
-    const data = makeValidEcologicalFootprintRecord();
+Deno.test('CarbonFootprintRecord - Creates successfully', () => {
+    const data = makeValidCarbonFootprintRecord();
 
-    const record = EcologicalFootprintRecord.create(
+    const record = CarbonFootprintRecord.create(
         data.id,
         data.userId,
         data.fromDate,
         data.toDate,
-        data.ecologicalFootprint
+        data.CarbonFootprint
     );
 
     assertEquals(record.id.equals(data.id), true);
@@ -47,8 +47,8 @@ Deno.test('EcologicalFootprintRecord - Creates successfully', () => {
     assertEquals(record.toDate.getTime(), data.toDate.getTime());
 });
 
-Deno.test('EcologicalFootprintRecord - Fails with missing or invalid data', async (t) => {
-    const valid = makeValidEcologicalFootprintRecord();
+Deno.test('CarbonFootprintRecord - Fails with missing or invalid data', async (t) => {
+    const valid = makeValidCarbonFootprintRecord();
     const futureDate = new Date(Date.now() + 60_000);
 
     const invalidCases = [
@@ -56,58 +56,58 @@ Deno.test('EcologicalFootprintRecord - Fails with missing or invalid data', asyn
             userId: null as unknown as UserId,
             fromDate: valid.fromDate,
             toDate: valid.toDate,
-            ecologicalFootprint: valid.ecologicalFootprint,
+            CarbonFootprint: valid.CarbonFootprint,
             msg: 'missing userId'
         },
         {
             userId: valid.userId,
             fromDate: futureDate,
             toDate: valid.toDate,
-            ecologicalFootprint: valid.ecologicalFootprint,
+            CarbonFootprint: valid.CarbonFootprint,
             msg: 'future fromDate'
         },
         {
             userId: valid.userId,
             fromDate: valid.fromDate,
             toDate: futureDate,
-            ecologicalFootprint: valid.ecologicalFootprint,
+            CarbonFootprint: valid.CarbonFootprint,
             msg: 'future toDate'
         },
         {
             userId: valid.userId,
             fromDate: valid.fromDate,
             toDate: valid.toDate,
-            ecologicalFootprint: null as unknown as EcologicalFootprint,
-            msg: 'missing ecologicalFootprint'
+            CarbonFootprint: null as unknown as CarbonFootprint,
+            msg: 'missing CarbonFootprint'
         }
     ];
 
     for (const c of invalidCases) {
         await t.step(`Throws with ${c.msg}`, () => {
             assertThrows(() => {
-                EcologicalFootprintRecord.create(
+                CarbonFootprintRecord.create(
                     valid.id,
                     c.userId,
                     c.fromDate,
                     c.toDate,
-                    c.ecologicalFootprint
+                    c.CarbonFootprint
                 );
             });
         });
     }
 });
 
-Deno.test('EcologicalFootprintRecord - Correctly references EcologicalFootprint values', () => {
-    const data = makeValidEcologicalFootprintRecord();
-    const record = EcologicalFootprintRecord.create(
+Deno.test('CarbonFootprintRecord - Correctly references CarbonFootprint values', () => {
+    const data = makeValidCarbonFootprintRecord();
+    const record = CarbonFootprintRecord.create(
         data.id,
         data.userId,
         data.fromDate,
         data.toDate,
-        data.ecologicalFootprint
+        data.CarbonFootprint
     );
 
-    assertEquals(record.ecologicalFootprint.totalGasUsage, data.ecologicalFootprint.totalGasUsage);
-    assertEquals(record.ecologicalFootprint.totalElectricityUsage, data.ecologicalFootprint.totalElectricityUsage);
-    assertEquals(record.ecologicalFootprint.totalWaste.get(WasteType.Plastic), 10);
+    assertEquals(record.CarbonFootprint.totalGasUsage, data.CarbonFootprint.totalGasUsage);
+    assertEquals(record.CarbonFootprint.totalElectricityUsage, data.CarbonFootprint.totalElectricityUsage);
+    assertEquals(record.CarbonFootprint.totalWaste.get(WasteType.Plastic), 10);
 });

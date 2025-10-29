@@ -1,5 +1,5 @@
 import { assertEquals, assertThrows } from '@std/assert';
-import { EcologicalFootprint, WasteType } from 'EcoPath/Domain/mod.ts';
+import { CarbonFootprint, WasteType } from 'EcoPath/Domain/mod.ts';
 import { WasteCarbonFactors } from 'EcoPath/Domain/Waste/WasteCarbonFactors.ts';
 
 function makeValidWasteData(): Map<WasteType, number> {
@@ -13,12 +13,12 @@ function makeValidWasteData(): Map<WasteType, number> {
     ]);
 }
 
-function makeValidEcologicalFootprint(): EcologicalFootprint {
-    return EcologicalFootprint.create(100, 200, makeValidWasteData());
+function makeValidCarbonFootprint(): CarbonFootprint {
+    return CarbonFootprint.create(100, 200, makeValidWasteData());
 }
 
-Deno.test('EcologicalFootprint - Creates successfully', () => {
-    const footprint = makeValidEcologicalFootprint();
+Deno.test('CarbonFootprint - Creates successfully', () => {
+    const footprint = makeValidCarbonFootprint();
 
     assertEquals(footprint.totalGasUsage, 100);
     assertEquals(footprint.totalElectricityUsage, 200);
@@ -30,7 +30,7 @@ Deno.test('EcologicalFootprint - Creates successfully', () => {
     assertEquals(footprint.totalWaste.get(WasteType.BioWaste), 0);
 });
 
-Deno.test('EcologicalFootprint - Fails on invalid or negative values', async (t) => {
+Deno.test('CarbonFootprint - Fails on invalid or negative values', async (t) => {
     const validWaste = makeValidWasteData();
 
     const invalidCases = [
@@ -42,13 +42,13 @@ Deno.test('EcologicalFootprint - Fails on invalid or negative values', async (t)
     for (const c of invalidCases) {
         await t.step(`Throws with ${c.msg}`, () => {
             assertThrows(() => {
-                EcologicalFootprint.create(c.gas, c.electricity, c.waste);
+                CarbonFootprint.create(c.gas, c.electricity, c.waste);
             });
         });
     }
 });
 
-Deno.test('EcologicalFootprint - Calculates carbon equivalent correctly', () => {
+Deno.test('CarbonFootprint - Calculates carbon equivalent correctly', () => {
     const waste = new Map<WasteType, number>([
         [WasteType.Glass, 0],
         [WasteType.Plastic, 10],
@@ -58,7 +58,7 @@ Deno.test('EcologicalFootprint - Calculates carbon equivalent correctly', () => 
         [WasteType.BioWaste, 0],
     ]);
 
-    const footprint = EcologicalFootprint.create(50, 100, waste);
+    const footprint = CarbonFootprint.create(50, 100, waste);
 
     const gasFactor = 2.2;
     const electricityFactor = 0.55;
@@ -71,13 +71,13 @@ Deno.test('EcologicalFootprint - Calculates carbon equivalent correctly', () => 
     assertEquals(footprint.calculateCarbonEquivalent(), expected);
 });
 
-Deno.test('EcologicalFootprint - Handles waste types with no carbon factor gracefully', () => {
+Deno.test('CarbonFootprint - Handles waste types with no carbon factor gracefully', () => {
     const waste = new Map<WasteType, number>([
         ['UNKNOWN' as WasteType, 10],
         [WasteType.Glass, 3]
     ]);
 
-    const footprint = EcologicalFootprint.create(0, 0, waste);
+    const footprint = CarbonFootprint.create(0, 0, waste);
     const result = footprint.calculateCarbonEquivalent();
 
     assertEquals(typeof result, 'number');

@@ -1,16 +1,16 @@
-import { SaveEcologicalFootprintRecord } from 'EcoPath/Application/mod.ts';
-import { MockEcologicalFootprintRecordRepository, MockUnitOfWork } from 'EcoPath/tests/Unit/Shared/mod.ts';
-import { WasteType, UserId, EcologicalFootprintRecordId } from 'EcoPath/Domain/mod.ts';
+import { SaveCarbonFootprintRecord } from 'EcoPath/Application/mod.ts';
+import { MockCarbonFootprintRecordRepository, MockUnitOfWork } from 'EcoPath/tests/Unit/Shared/mod.ts';
+import { WasteType, UserId, CarbonFootprintRecordId } from 'EcoPath/Domain/mod.ts';
 import { assert } from '@std/assert';
 
-Deno.test('SaveEcologicalFootprintRecord - Successfully saves a record', async () => {
+Deno.test('SaveCarbonFootprintRecord - Successfully saves a record', async () => {
     // Arrange
-    const mockRepository = new MockEcologicalFootprintRecordRepository();
+    const mockRepository = new MockCarbonFootprintRecordRepository();
     const mockUnitOfWork = new MockUnitOfWork();
 
-    const saveRecord = new SaveEcologicalFootprintRecord(mockRepository, mockUnitOfWork);
+    const saveRecord = new SaveCarbonFootprintRecord(mockRepository, mockUnitOfWork);
 
-    const recordId = EcologicalFootprintRecordId.create();
+    const recordId = CarbonFootprintRecordId.create();
     const userId = UserId.create();
 
     const input = {
@@ -18,7 +18,7 @@ Deno.test('SaveEcologicalFootprintRecord - Successfully saves a record', async (
         userId: userId.toString(),
         fromDate: new Date('2024-01-01T00:00:00Z'),
         toDate: new Date('2024-02-01T00:00:00Z'),
-        ecologicalFootprint: {
+        CarbonFootprint: {
             totalGasUsage: 120,
             totalElectricityUsage: 400,
             totalWaste: {
@@ -46,12 +46,12 @@ Deno.test('SaveEcologicalFootprintRecord - Successfully saves a record', async (
     assert(savedRecord.fromDate.getTime() === input.fromDate.getTime());
     assert(savedRecord.toDate.getTime() === input.toDate.getTime());
 
-    const footprint = savedRecord.ecologicalFootprint;
-    assert(footprint.totalGasUsage === input.ecologicalFootprint.totalGasUsage);
-    assert(footprint.totalElectricityUsage === input.ecologicalFootprint.totalElectricityUsage);
+    const footprint = savedRecord.CarbonFootprint;
+    assert(footprint.totalGasUsage === input.CarbonFootprint.totalGasUsage);
+    assert(footprint.totalElectricityUsage === input.CarbonFootprint.totalElectricityUsage);
 
     const totalWaste = footprint.totalWaste;
-    assert(totalWaste.get(WasteType.Plastic) === input.ecologicalFootprint.totalWaste[WasteType.Plastic]);
-    assert(totalWaste.get(WasteType.PaperAndCardboard) === input.ecologicalFootprint.totalWaste[WasteType.PaperAndCardboard]);
-    assert(totalWaste.get(WasteType.Metal) === input.ecologicalFootprint.totalWaste[WasteType.Metal]);
+    assert(totalWaste.get(WasteType.Plastic) === input.CarbonFootprint.totalWaste[WasteType.Plastic]);
+    assert(totalWaste.get(WasteType.PaperAndCardboard) === input.CarbonFootprint.totalWaste[WasteType.PaperAndCardboard]);
+    assert(totalWaste.get(WasteType.Metal) === input.CarbonFootprint.totalWaste[WasteType.Metal]);
 });

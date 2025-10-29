@@ -18,7 +18,6 @@ Deno.test("SaveSmartMeter - Succesfully saves a smart meter", async () => {
     const id = SmartMeterId.create();
 
     const input: SaveSmartMeterInput = {
-        id: id.toString(),
         meterType: MeterType.ELECTRICITY,
         location: {
             houseNumber: "11",
@@ -37,7 +36,6 @@ Deno.test("SaveSmartMeter - Succesfully saves a smart meter", async () => {
 
     const savedSmartMeter = mockSmartMeterRepository.getSmartMeterFromCall(1);
 
-    assert(savedSmartMeter.id.equals(id));
     assert(savedSmartMeter.meterType === input.meterType);
     assert(savedSmartMeter.location.houseNumber === input.location.houseNumber);
     assert(savedSmartMeter.location.street === input.location.street);

@@ -37,12 +37,14 @@ export class OakServices {
                 const router: Router = (await serviceProvider.getService<Router>('router')).value;
                 const application: Application = new Application();
                 const host: string = config.get('WEBAPI_HOST', this._fallbackHost);
-                const port: number = parseInt(config.get('WEBAPI_PORT', this._fallbackPort));
+                const port: number = Number.parseInt(config.get('WEBAPI_PORT', this._fallbackPort));
                 const middlewares: Middleware[] =
                     (await serviceProvider.getService<Middleware[]>('webApiMiddlewares')).value;
                 const webserver: OakWebServer = new OakWebServer(host, port, router, application);
 
-                middlewares.forEach((middleware) => webserver.addMiddleware(middleware));
+                for (const middleware of middlewares) {
+                    webserver.addMiddleware(middleware);
+                }
 
                 return webserver;
             },

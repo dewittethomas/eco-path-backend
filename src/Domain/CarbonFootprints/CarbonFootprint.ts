@@ -2,7 +2,7 @@ import { Guard } from "@domaincrafters/std";
 import { WasteType } from "EcoPath/Domain/mod.ts";
 import { WasteCarbonFactors } from "../Waste/WasteCarbonFactors.ts";
 
-export class EcologicalFootprint {
+export class CarbonFootprint {
     private readonly _totalGasUsage: number; // in m³
     private readonly _totalElectricityUsage: number; // in kWh
     private readonly _totalWaste: Map<WasteType, number>; // in <WasteType, kg>
@@ -21,10 +21,10 @@ export class EcologicalFootprint {
         totalGasUsage: number,
         totalElectricityUsage: number,
         totalWaste: Map<WasteType, number>
-    ): EcologicalFootprint {
-        const ecologicalFootprint = new EcologicalFootprint(totalGasUsage, totalElectricityUsage, totalWaste);
-        ecologicalFootprint.validateState();
-        return ecologicalFootprint;
+    ): CarbonFootprint {
+        const carbonFootprint = new CarbonFootprint(totalGasUsage, totalElectricityUsage, totalWaste);
+        carbonFootprint.validateState();
+        return carbonFootprint;
     }
 
     public validateState() {
