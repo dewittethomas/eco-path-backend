@@ -62,7 +62,7 @@ export class SaveUserController implements WebApiController {
             }
         };
 
-        const id:string = await this._saveUser.execute(input);
+        const id: string = await this._saveUser.execute(input);
 
         WebApiResult.created(ctx, `/users/${id}`);
     }
@@ -70,21 +70,21 @@ export class SaveUserController implements WebApiController {
     private async validateRequest(ctx: RouterContext<string>): Promise<void> {
         const body: SaveUserBody = await ctx.request.body.json() as SaveUserBody;
 
-    RequestValidator
-        .create([
-            () => Guard.check(body.name).againstEmpty('Name is required'),
-            () => Guard.check(body.email).againstEmpty('Email is required'),
-            () => Guard.check(body.avatarImage).againstEmpty('Avatar image is required'),
-            () => Guard.check(body.userProfile).againstNullOrUndefined('User profile is required'),
-            () => Guard.check(body.userProfile.birthDate).againstEmpty('Birth date is required'),
-            () => Guard.check(body.userProfile.gender).againstEmpty('Gender is required'),
-            () => Guard.check(body.userProfile.housingType).againstEmpty('Housing type is required'),
-            () => Guard.check(body.userProfile.householdSize).againstNegative().againstZero(),
-            () => Guard.check(body.userProfile.location).againstNullOrUndefined('Location is required'),
-            () => Guard.check(body.userProfile.location.city).againstEmpty('City is required'),
-            () => Guard.check(body.userProfile.location.postalCode).againstEmpty('Postal code is required'),
-        ])
-        .onValidationFailure('Invalid request: Missing or malformed data')
-        .validate();
+        RequestValidator
+            .create([
+                () => Guard.check(body.name).againstEmpty('Name is required'),
+                () => Guard.check(body.email).againstEmpty('Email is required'),
+                () => Guard.check(body.avatarImage).againstEmpty('Avatar image is required'),
+                () => Guard.check(body.userProfile).againstNullOrUndefined('User profile is required'),
+                () => Guard.check(body.userProfile.birthDate).againstEmpty('Birth date is required'),
+                () => Guard.check(body.userProfile.gender).againstEmpty('Gender is required'),
+                () => Guard.check(body.userProfile.housingType).againstEmpty('Housing type is required'),
+                () => Guard.check(body.userProfile.householdSize).againstNegative().againstZero(),
+                () => Guard.check(body.userProfile.location).againstNullOrUndefined('Location is required'),
+                () => Guard.check(body.userProfile.location.city).againstEmpty('City is required'),
+                () => Guard.check(body.userProfile.location.postalCode).againstEmpty('Postal code is required'),
+            ])
+            .onValidationFailure('Invalid request: Missing or malformed data')
+            .validate();
     }
 }

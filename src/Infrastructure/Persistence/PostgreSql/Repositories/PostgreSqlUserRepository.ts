@@ -1,6 +1,6 @@
 import type { Optional } from '@domaincrafters/std';
-import type { UserRepository } from 'EcoPath/Application/Contracts/mod.ts';
 import type { User } from 'EcoPath/Domain/mod.ts';
+import type { UserRepository } from 'EcoPath/Application/Contracts/mod.ts';
 import { type RecordMapper, type PostgreSqlClient, PostgreSqlRepository } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Shared/mod.ts';
 
 export class PostgreSqlUserRepository
