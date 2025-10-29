@@ -12,6 +12,7 @@ import {
     PostgreSqlClient,
     PostgreSqlUnitOfWork
 } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Shared/mod.ts';
+import { PostgreSqlAllSensorReadingsBySmartMeterIdAndDateQuery } from "../../mod.ts";
 
 export class PostgreSqlServices {
 
@@ -46,6 +47,20 @@ export class PostgreSqlServices {
                 const clientWrapper = (await provider.getService<PostgreSqlClient>('postgreSqlClient')).value;
                 return new PostgreSqlUnitOfWork(clientWrapper);
             }
+        );
+
+        return this;
+    }
+
+    static addQueries(serviceCollection: ServiceCollection): typeof PostgreSqlServices {
+        serviceCollection.addScoped(
+            'allSensorReadingsBySmartMeterIdAndDate',
+            async (_serviceProvider: ServiceProvider) => {
+                const postgreSqlClient: PostgreSqlClient =
+                    (await _serviceProvider.getService<PostgreSqlClient>('postgreSqlClient')).value;
+
+                return new PostgreSqlAllSensorReadingsBySmartMeterIdAndDateQuery(postgreSqlClient);
+            },
         );
 
         return this;

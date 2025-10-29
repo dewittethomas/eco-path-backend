@@ -13,8 +13,7 @@ export class SmartMeterId extends UUIDEntityId {
 
 export enum MeterType {
     ELECTRICITY = 'electricity',
-    WATER = 'water',
-    GAS = 'gas',
+    GAS = 'gas'
 }
 
 export class SmartMeter extends Entity {
