@@ -7,7 +7,9 @@ import type { Config } from 'EcoPath/Infrastructure/Shared/mod.ts';
 import {
     PostgreSqlAllSensorReadingsBySmartMeterIdAndDateQuery,
     PostgreSqlUserRepository,
+    PostgreSqlSmartMeterRepository,
     UserRecordMapper,
+    SmartMeterRecordMapper
 } from 'EcoPath/Infrastructure/Persistence/PostgreSql/mod.ts';
 
 export class PersistenceModule {
@@ -34,6 +36,21 @@ export class PersistenceModule {
                         userDocumentMapper,
                     );
                 },
+            )
+            .addScoped(
+                'postgreSqlSmartMeterRepository',
+                async (serviceProvider: ServiceProvider) => {
+                    const client = 
+                        (await serviceProvider.getService<PostgreSqlClient>('postgreSqlClient'))
+                            .getOrThrow();
+
+                    const smartMeterDocumentMapper = new SmartMeterRecordMapper();
+
+                    return new PostgreSqlSmartMeterRepository(
+                        client,
+                        smartMeterDocumentMapper
+                    )
+                }
             );
 
         return this;

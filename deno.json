@@ -5,7 +5,7 @@
         "include": ["tests/"]
   },
   "tasks": {
-    "run": "deno run --env-file=config/.env --allow-env --allow-net --allow-read --allow-write --allow-sys src/Main/Main.ts",
+    "run": "deno run --env-file=config/dev/.env --allow-env --allow-net --allow-read --allow-write --allow-sys src/Main/Main.ts",
     "test": "deno test -A --coverage; deno coverage --exclude=tests --exclude=src/Domain/Shared; deno coverage --exclude=tests --exclude=src/Domain/Shared --html"
   },
   "imports": {
@@ -17,6 +17,8 @@
     "@oak/commons": "jsr:@oak/commons@^1.0.1",
     "@oak/oak": "jsr:@oak/oak@^17.1.6",
     "@std/assert": "jsr:@std/assert@1",
+    "@std/fs": "jsr:@std/fs@^1.0.19",
+    "@std/path": "jsr:@std/path@^1.1.2",
     "EcoPath/": "./src/",
     "EcoPath/tests/": "./tests/"
   }

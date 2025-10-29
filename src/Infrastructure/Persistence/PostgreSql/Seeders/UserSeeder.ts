@@ -10,14 +10,14 @@ export class UserSeeder {
                 id: UserId.create(),
                 name: 'Demo User',
                 email: 'demo@example.com',
-                avatarImage: 'iVBORw0KGgoAAAANSUhEUgAAAAUA', // base64
+                avatarImage: 'iVBORw0KGgoAAAANSUhEUgAAAAUA',
                 birthDate: new Date('2000-01-01'),
                 gender: Gender.Male,
                 location: {
-                    houseNumber: '1',
+                    houseNumber: '11',
                     street: 'Main St',
-                    city: 'City',
-                    postalCode: '12345'
+                    city: 'New York',
+                    postalCode: '1000'
                 },
                 housingType: HousingType.Apartment,
                 householdSize: 1,
