@@ -3,11 +3,13 @@ import type {
     SmartMeterRepository,
     SensorReadingRepository
 } from 'EcoPath/Application/Contracts/mod.ts';
+import { Config } from 'EcoPath/Infrastructure/Shared/Config.ts';
 
 export class SensorReadingSeeder {
     constructor(
         private readonly smartMeterRepository: SmartMeterRepository,
         private readonly sensorReadingRepository: SensorReadingRepository,
+        private readonly config: Config
     ) {}
 
     async seed(): Promise<void> {
@@ -15,7 +17,8 @@ export class SensorReadingSeeder {
         if (smartMeters.length === 0) return;
 
         const now = new Date();
-        const hoursBack = 24 * 60;
+        const days = this.config.get('SEED_DAYS', '31')
+        const hoursBack = 24 * Number.parseInt(days);
 
         for (const smartMeter of smartMeters) {
             const unit = smartMeter.meterType === MeterType.ELECTRICITY 

@@ -16,8 +16,6 @@ export class PostgreSqlAllSensorReadingsBySmartMeterIdAndDateQuery
         from: Date,
         to: Date
     ): Promise<AllSensorReadingsBySmartMeterIdAndDateData> {
-
-        // ✅ FIX: select meter_type instead of type/unit
         const meterRow = await this.db.findOne<{ meter_type: string }>(
             `SELECT meter_type FROM smart_meters WHERE id = $1 LIMIT 1`,
             [smartMeterId]
@@ -25,17 +23,24 @@ export class PostgreSqlAllSensorReadingsBySmartMeterIdAndDateQuery
 
         const { meter_type } = meterRow.getOrThrow();
 
-        // ✅ Derive unit from meter_type (domain logic)
         const unit = meter_type === 'electricity'
             ? Unit.KilowattHour
             : Unit.CubicMeter;
 
-        const rows = await this.db.findMany<{ timestamp: string; value: number }>(
+        const toExclusive = new Date(to);
+        toExclusive.setDate(toExclusive.getDate() + 1);
+
+        const rows = await this.db.findMany<{
+            timestamp: string;
+            value: number;
+        }>(
             `SELECT timestamp, value
-             FROM sensor_readings
-             WHERE smart_meter_id = $1 AND timestamp >= $2 AND timestamp <= $3
-             ORDER BY timestamp ASC`,
-            [smartMeterId, from.toISOString(), to.toISOString()]
+            FROM sensor_readings
+            WHERE smart_meter_id = $1
+            AND timestamp >= $2
+            AND timestamp < $3
+            ORDER BY timestamp ASC`,
+            [smartMeterId, from.toISOString(), toExclusive.toISOString()]
         );
 
         const readings: SensorReadingRecord[] = rows.map(row => ({

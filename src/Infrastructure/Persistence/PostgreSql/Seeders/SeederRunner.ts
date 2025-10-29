@@ -17,7 +17,7 @@ export class SeederRunner {
         await unitOfWork.do(async () => {
             await new UserSeeder(userRepository).seed();
             await new SmartMeterSeeder(smartMeterRepository).seed();
-            await new SensorReadingSeeder(smartMeterRepository, sensorReadingRepository).seed();
+            await new SensorReadingSeeder(smartMeterRepository, sensorReadingRepository, config).seed();
         });
 
         await scope.dispose();
