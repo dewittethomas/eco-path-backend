@@ -1,4 +1,4 @@
-import { SensorReadingRecord } from 'EcoPath/Application/Contracts/mod.ts';
+//import { SensorReadingRecord } from 'EcoPath/Application/Contracts/mod.ts';
 
 export interface AllSensorReadingsBySmartMeterIdAndDateData {
     smartMeterId: string,
@@ -6,7 +6,7 @@ export interface AllSensorReadingsBySmartMeterIdAndDateData {
     from: Date,
     to: Date,
     unit: string,
-    sensorReadings: SensorReadingRecord[]
+    average: number
 }
 
 export interface AllSensorReadingsBySmartMeterIdAndDateQuery {
