@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS sensor_readings (
-    id UUID PRIMARY KEY,
+    id BIGSERIAL PRIMARY KEY,
     smart_meter_id UUID NOT NULL REFERENCES smart_meters(id) ON DELETE CASCADE,
     timestamp TIMESTAMPTZ NOT NULL,
     value DOUBLE PRECISION NOT NULL,

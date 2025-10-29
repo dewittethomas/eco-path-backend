@@ -8,9 +8,11 @@ import {
     PostgreSqlAllSensorReadingsBySmartMeterIdAndDateQuery,
     PostgreSqlUserRepository,
     PostgreSqlSmartMeterRepository,
+    PostgreSqlSensorReadingRepository,
     UserRecordMapper,
     SmartMeterRecordMapper
 } from 'EcoPath/Infrastructure/Persistence/PostgreSql/mod.ts';
+import { SensorReadingRecordMapper } from "../../../Infrastructure/Persistence/PostgreSql/Mappers/SensorReadingRecordMapper.ts";
 
 export class PersistenceModule {
     static add(serviceCollection: ServiceCollection, config: Config): void {
@@ -51,7 +53,21 @@ export class PersistenceModule {
                         smartMeterDocumentMapper
                     )
                 }
-            );
+            )
+            .addScoped(
+                'postgreSqlSensorReadingRepository',
+                async(serviceProvider: ServiceProvider) => {
+                    const client = 
+                        (await serviceProvider.getService<PostgreSqlClient>('postgreSqlClient'))
+                            .getOrThrow();
+                    const sensorReadingDocumentMapper = new SensorReadingRecordMapper();
+
+                    return new PostgreSqlSensorReadingRepository(
+                        client,
+                        sensorReadingDocumentMapper
+                    )
+                }
+            )
 
         return this;
     }
