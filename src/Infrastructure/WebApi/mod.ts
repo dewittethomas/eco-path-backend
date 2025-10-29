@@ -2,3 +2,4 @@ export type { ControllerFactory } from 'EcoPath/Infrastructure/WebApi/Shared/Con
 
 // Controllers
 export { SaveUserController } from 'EcoPath/Infrastructure/WebApi/Controllers/SaveUserController.ts';
+export { AllSensorReadingsBySmartMeterIdAndDateController } from 'EcoPath/Infrastructure/WebApi/Controllers/AllSensorReadingsBySmartMeterIdAndDateController.ts';

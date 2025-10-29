@@ -4,6 +4,7 @@ import {
     SensorReadingRecord
 } from 'EcoPath/Application/Contracts/mod.ts';
 import { PostgreSqlClient } from 'EcoPath/Infrastructure/Persistence/PostgreSql/Shared/mod.ts';
+import { Unit } from 'EcoPath/Domain/mod.ts';
 
 export class PostgreSqlAllSensorReadingsBySmartMeterIdAndDateQuery
     implements AllSensorReadingsBySmartMeterIdAndDateQuery {
@@ -16,25 +17,25 @@ export class PostgreSqlAllSensorReadingsBySmartMeterIdAndDateQuery
         to: Date
     ): Promise<AllSensorReadingsBySmartMeterIdAndDateData> {
 
-        const meterRow = await this.db.findOne<{
-            type: string;
-            unit: string;
-        }>(
-            `SELECT type, unit FROM smart_meters WHERE id = $1 LIMIT 1`,
+        // ✅ FIX: select meter_type instead of type/unit
+        const meterRow = await this.db.findOne<{ meter_type: string }>(
+            `SELECT meter_type FROM smart_meters WHERE id = $1 LIMIT 1`,
             [smartMeterId]
         );
 
-        const { type, unit } = meterRow.getOrThrow();
+        const { meter_type } = meterRow.getOrThrow();
 
-        const rows = await this.db.findMany<{
-            timestamp: string;
-            value: number;
-        }>(
+        // ✅ Derive unit from meter_type (domain logic)
+        const unit = meter_type === 'electricity'
+            ? Unit.KilowattHour
+            : Unit.CubicMeter;
+
+        const rows = await this.db.findMany<{ timestamp: string; value: number }>(
             `SELECT timestamp, value
              FROM sensor_readings
              WHERE smart_meter_id = $1 AND timestamp >= $2 AND timestamp <= $3
              ORDER BY timestamp ASC`,
-            [smartMeterId, from, to]
+            [smartMeterId, from.toISOString(), to.toISOString()]
         );
 
         const readings: SensorReadingRecord[] = rows.map(row => ({
@@ -44,10 +45,10 @@ export class PostgreSqlAllSensorReadingsBySmartMeterIdAndDateQuery
 
         return {
             smartMeterId,
-            type,       
+            type: meter_type,
             from,
             to,
-            unit,       
+            unit,
             sensorReadings: readings
         };
     }

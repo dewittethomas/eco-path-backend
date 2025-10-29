@@ -3,11 +3,16 @@ import type { RouterContext } from '@oak/oak';
 import type { WebApiController } from 'EcoPath/Infrastructure/WebApi/Shared/WebApiController.ts';
 import type { ControllerFactory } from 'EcoPath/Infrastructure/WebApi/Shared/mod.ts';
 import {
-    SaveUserController
+    SaveUserController,
+    AllSensorReadingsBySmartMeterIdAndDateController
 } from 'EcoPath/Infrastructure/WebApi/mod.ts';
 import {
-    SaveUser
+    SaveUser,
+    AllSensorReadingsBySmartMeterIdAndDate
 } from 'EcoPath/Application/mod.ts';
+import {
+    AllSensorReadingsBySmartMeterIdAndDateQuery
+} from 'EcoPath/Application/Contracts/mod.ts';
 import type { ServiceProvider } from '@domaincrafters/di';
 import type {
     UserRepository,
@@ -30,12 +35,15 @@ export class OakControllerFactory implements ControllerFactory {
 
         switch (ctx.routeName) {
             case SaveUserController.name:
-                return await this.createSaveUserController();
+                return await this.buildSaveUserController();
+            case AllSensorReadingsBySmartMeterIdAndDateController.name:
+                return await this.buildAllSensorReadingsBySmartMeterIdAndDateController();
             default:
                 throw new IllegalStateException(`Route name ${ctx.routeName} not found`);
         }
     }
-    private async createSaveUserController(): Promise<SaveUserController> {
+
+    private async buildSaveUserController(): Promise<SaveUserController> {
         const userRepository = (await this._serviceProvider.getService<UserRepository>(
             'postgreSqlUserRepository',
         ))
@@ -52,5 +60,16 @@ export class OakControllerFactory implements ControllerFactory {
         return new SaveUserController(
             saveUser
         );
+    }
+
+    async buildAllSensorReadingsBySmartMeterIdAndDateController(): Promise<AllSensorReadingsBySmartMeterIdAndDateController> {
+        const todoListQueryService: AllSensorReadingsBySmartMeterIdAndDateQuery =
+            (await this._serviceProvider.getService<AllSensorReadingsBySmartMeterIdAndDateQuery>(
+                'allSensorReadingsBySmartMeterIdAndDateQuery',
+            )).value;
+
+        const usecase: AllSensorReadingsBySmartMeterIdAndDate = new AllSensorReadingsBySmartMeterIdAndDate(todoListQueryService);
+
+        return new AllSensorReadingsBySmartMeterIdAndDateController(usecase);
     }
 }

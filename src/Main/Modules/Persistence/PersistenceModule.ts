@@ -18,8 +18,8 @@ export class PersistenceModule {
     static add(serviceCollection: ServiceCollection, config: Config): void {
         PostgreSqlServices.add(config, serviceCollection);
 
-        this.addRepositories(serviceCollection);
-            //.addQueries(serviceCollection);
+        this.addRepositories(serviceCollection)
+            .addQueries(serviceCollection);
     }
 
     static addRepositories(serviceCollection: ServiceCollection): typeof PersistenceModule {
