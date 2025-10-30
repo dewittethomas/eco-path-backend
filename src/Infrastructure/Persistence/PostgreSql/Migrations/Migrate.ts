@@ -24,19 +24,22 @@ await client.queryObject(`
 const executed = await client.queryObject<{ name: string }>(`SELECT name FROM _migrations;`);
 const appliedMigrations = new Set(executed.rows.map(r => r.name));
 
+const migrationFiles: string[] = [];
 for await (const entry of Deno.readDir(MIGRATIONS_DIR)) {
-    if (!entry.isFile || !entry.name.endsWith('.sql')) continue;
+    if (entry.isFile && entry.name.endsWith('.sql')) {
+        migrationFiles.push(entry.name);
+    }
+}
+migrationFiles.sort(); 
 
-    const migrationName = entry.name;
-    const migrationPath = join(MIGRATIONS_DIR, migrationName);
-
+for (const migrationName of migrationFiles) {
     if (appliedMigrations.has(migrationName)) {
         console.log(`Already applied: ${migrationName}`);
         continue;
     }
 
     console.log(`Applying migration: ${migrationName}`);
-
+    const migrationPath = join(MIGRATIONS_DIR, migrationName);
     const sql = await Deno.readTextFile(migrationPath);
 
     await client.queryArray('BEGIN');
@@ -47,7 +50,6 @@ for await (const entry of Deno.readDir(MIGRATIONS_DIR)) {
             [migrationName]
         );
         await client.queryArray('COMMIT');
-
         console.log(`Applied: ${migrationName}`);
     } catch (err) {
         await client.queryArray('ROLLBACK');
@@ -58,4 +60,4 @@ for await (const entry of Deno.readDir(MIGRATIONS_DIR)) {
 }
 
 await client.end();
-console.log('All migrations complete.');
+console.log('✅ All migrations complete.');
