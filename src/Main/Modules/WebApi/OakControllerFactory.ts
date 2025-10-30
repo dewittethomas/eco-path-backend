@@ -7,8 +7,7 @@ import {
     AllSensorReadingsBySmartMeterIdAndDateController
 } from 'EcoPath/Infrastructure/WebApi/mod.ts';
 import {
-    SaveUser,
-    AllSensorReadingsBySmartMeterIdAndDate
+    SaveUser
 } from 'EcoPath/Application/mod.ts';
 import {
     AllSensorReadingsBySmartMeterIdAndDateQuery
@@ -62,14 +61,11 @@ export class OakControllerFactory implements ControllerFactory {
         );
     }
 
-    async buildAllSensorReadingsBySmartMeterIdAndDateController(): Promise<AllSensorReadingsBySmartMeterIdAndDateController> {
-        const todoListQueryService: AllSensorReadingsBySmartMeterIdAndDateQuery =
-            (await this._serviceProvider.getService<AllSensorReadingsBySmartMeterIdAndDateQuery>(
-                'allSensorReadingsBySmartMeterIdAndDateQuery',
-            )).value;
+    private async buildAllSensorReadingsBySmartMeterIdAndDateController(): Promise<AllSensorReadingsBySmartMeterIdAndDateController> {
+        const query = (await this._serviceProvider.getService<AllSensorReadingsBySmartMeterIdAndDateQuery>(
+            'allSensorReadingsBySmartMeterIdAndDateQuery',
+        )).getOrThrow();
 
-        const usecase: AllSensorReadingsBySmartMeterIdAndDate = new AllSensorReadingsBySmartMeterIdAndDate(todoListQueryService);
-
-        return new AllSensorReadingsBySmartMeterIdAndDateController(usecase);
+        return new AllSensorReadingsBySmartMeterIdAndDateController(query);
     }
 }

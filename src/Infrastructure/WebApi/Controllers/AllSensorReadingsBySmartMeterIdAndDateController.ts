@@ -5,29 +5,39 @@ import {
     WebApiResult,
     RequestValidator
 } from 'EcoPath/Infrastructure/WebApi/Shared/mod.ts';
-import type { UseCase } from '@domaincrafters/application';
-import type { AllSensorReadingsBySmartMeterIdAndDateData } from 'EcoPath/Application/Contracts/mod.ts';
+import type { AllSensorReadingsBySmartMeterIdAndDateQuery } from 'EcoPath/Application/Contracts/mod.ts';
 
 export class AllSensorReadingsBySmartMeterIdAndDateController {
     constructor(
-        private readonly useCase: UseCase<
-            { smartMeterId: string; from: Date; to: Date },
-            AllSensorReadingsBySmartMeterIdAndDateData
-        >
+        private readonly query: AllSensorReadingsBySmartMeterIdAndDateQuery
     ) {}
 
     async handle(ctx: RouterContext<string>): Promise<void> {
         const request = await WebApiRequest.create(ctx, this.validateRequest);
 
         const smartMeterId = request.parameter('smartMeterId');
-        const fromStr = ctx.request.url.searchParams.get('from');
-        const toStr = ctx.request.url.searchParams.get('to');
+        const from = new Date(ctx.request.url.searchParams.get('from')!);
+        const to = new Date(ctx.request.url.searchParams.get('to')!);
 
-        const from = new Date(fromStr!);
-        const to = new Date(toStr!);
+        const avgFlag = ctx.request.url.searchParams.get('avg');
+        const interval = ctx.request.url.searchParams.get('interval') as 'day' | 'week' | 'month' | null;
 
-        const data = await this.useCase.execute({ smartMeterId, from, to });
-        WebApiResult.ok(ctx, data);
+        let result;
+
+        if (avgFlag === 'true' && interval) {
+            // grouped averages (day/week/month)
+            result = await this.query.fetchGroupedAverage(smartMeterId, from, to, interval);
+        }
+        else if (avgFlag === 'true') {
+            // single average
+            result = await this.query.fetchAverage(smartMeterId, from, to);
+        }
+        else {
+            // raw readings
+            result = await this.query.fetchAll(smartMeterId, from, to);
+        }
+
+        WebApiResult.ok(ctx, result);
     }
 
     private validateRequest(ctx: RouterContext<string>): Promise<void> {

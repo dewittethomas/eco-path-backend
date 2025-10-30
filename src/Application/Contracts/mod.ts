@@ -16,4 +16,4 @@ export type { SaveClassificationResultInput } from 'EcoPath/Application/Waste/Sa
 
 // -- QUERY INTERFACES -- 
 export type { SensorReadingRecord } from 'EcoPath/Application/Contracts/Data/SensorReadingRecord.ts';
-export type { AllSensorReadingsBySmartMeterIdAndDateData, AllSensorReadingsBySmartMeterIdAndDateQuery } from 'EcoPath/Application/Contracts/Ports/Queries.ts';
+export type { GetSensorReadingsData, GetAverageSensorReadingsData, GetGroupedAverageSensorReadingsData, AllSensorReadingsBySmartMeterIdAndDateQuery, GroupedAverageRecord } from 'EcoPath/Application/Contracts/Ports/Queries.ts';

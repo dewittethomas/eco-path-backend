@@ -41,6 +41,7 @@ export class SmartMeterSeeder {
             );
 
             await this.smartMeterRepository.save(smartMeter);
+            console.log(`SmartMeter ${smartMeter.id} (type: ${smartMeter.meterType}) seeded`);
         }
     }
 }

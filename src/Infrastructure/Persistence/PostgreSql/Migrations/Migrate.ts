@@ -60,4 +60,4 @@ for (const migrationName of migrationFiles) {
 }
 
 await client.end();
-console.log('✅ All migrations complete.');
+console.log('All migrations complete.');
